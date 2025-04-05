@@ -1,22 +1,23 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { supabase } from "../lib/supabase";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
+import { useRouter } from 'next/navigation';
 
 export default function Register() {
   const router = useRouter();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const [agree, setAgree] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!agree) {
-      return setError("You must agree to the Privacy Policy and Terms and Conditions.");
+      return setError('You must agree to the Privacy Policy and Terms and Conditions.');
     }
 
     const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -25,9 +26,9 @@ export default function Register() {
       options: {
         data: {
           full_name: name,
-          email: email  // Explicitly include in metadata
-        }
-      }
+          email: email, // Explicitly include in metadata
+        },
+      },
     });
 
     if (authError) return setError(authError.message);
@@ -39,13 +40,29 @@ export default function Register() {
         user_id: authData.user?.id,
         email: email,
         full_name: name,
-        status: 'pending'
+        status: 'pending',
       });
 
     if (profileError) return setError(profileError.message);
 
-    router.push("/login");
+    // Show toast message
+    setShowToast(true);
+
+    // Redirect to login page after a short delay
+    setTimeout(() => {
+      router.push('/login');
+    }, 1000); // Adjust the delay as needed
   };
+
+  // Hide toast after 3 seconds
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-100 to-white p-4">
@@ -92,7 +109,15 @@ export default function Register() {
               className="mr-2"
             />
             <label htmlFor="agree" className="text-purple-600 text-sm">
-              I agree to the <a href="/privacy-policy" className="underline hover:text-purple-500">Privacy Policy</a> and <a href="/terms-and-conditions" className="underline hover:text-purple-500">Terms and Conditions</a>.
+              I agree to the{' '}
+              <a href="/privacy-policy" className="underline hover:text-purple-500">
+                Privacy Policy
+              </a>{' '}
+              and{' '}
+              <a href="/terms-and-conditions" className="underline hover:text-purple-500">
+                Terms and Conditions
+              </a>
+              .
             </label>
           </div>
           {error && <p className="text-red-500 text-sm">{error}</p>}
@@ -104,12 +129,17 @@ export default function Register() {
           </button>
         </form>
         <p className="mt-4 text-center text-purple-600">
-          Already have an account?{" "}
+          Already have an account?{' '}
           <a href="/login" className="underline hover:text-purple-500">
             Log in here
           </a>
         </p>
       </div>
+      {showToast && (
+        <div className="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg">
+          Check your email for the confirmation link!
+        </div>
+      )}
     </div>
   );
 }
