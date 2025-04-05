@@ -19,7 +19,7 @@ const Navbar: React.FC = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         <div className="flex items-center space-x-3">
           <Image
-            src="/logo.png"
+            src="/Logo.png"
             alt="Vivace Music School Kenya Logo"
             width={120}
             height={48}
