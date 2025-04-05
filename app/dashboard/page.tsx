@@ -64,7 +64,7 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-10">
           {/* Library Card */}
           <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center hover:shadow-lg transition-shadow">
-            <img src="/logo.png" alt="Library Icon" className="w-16 h-16 mb-4" />
+            <img src="/Logo.png" alt="Library Icon" className="w-16 h-16 mb-4" />
             <h2 className="text-xl font-semibold text-purple-800">Digital Library</h2>
             <p className="mt-2 text-gray-600">Explore our collection of books and resources.</p>
             <a href="/library" className="mt-4 text-purple-600 hover:underline">

@@ -81,7 +81,7 @@ export default function ChatPage() {
           >
             <div
               className={`p-3 rounded-lg max-w-xs ${
-                msg.role === 'user' ? 'bg-blue-200' : 'bg-gray-200'
+                msg.role === 'user' ? 'bg-purple-300' : 'bg-gray-200'
               }`}
               style={{ color: 'black' }}
             >
@@ -94,7 +94,7 @@ export default function ChatPage() {
         ))}
         {loading && (
           <div className="flex justify-start mb-2">
-            <div className="p-3 rounded-lg bg-gray-200" style={{ color: 'black' }}>
+            <div className="p-3 rounded-lg bg-purple-200" style={{ color: 'black' }}>
               <span className="animate-pulse">Typing...</span>
             </div>
           </div>
