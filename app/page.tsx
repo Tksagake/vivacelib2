@@ -45,7 +45,7 @@ export default function Home() {
       {/* Navbar */}
       <nav className="bg-white text-purple-900 p-4 flex justify-between items-center shadow-lg">
         <div className="flex items-center gap-2">
-          <img src="/logo.png" alt="Vivace Logo" className="w-28 h-28" />
+          <img src="/Logo.png" alt="Vivace Logo" className="w-28 h-28" />
           <h1 className="text-2xl font-bold">Vivace Music School Kenya</h1>
         </div>
         <div className="space-x-6 hidden md:flex">
