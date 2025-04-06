@@ -26,30 +26,19 @@ export default function Register() {
       options: {
         data: {
           full_name: name,
-          email: email, // Explicitly include in metadata
         },
       },
     });
 
     if (authError) return setError(authError.message);
 
-    const { error: profileError } = await supabase
-      .from('profiles')
-      .upsert({
-        id: authData.user?.id,
-        user_id: authData.user?.id,
-        email: email,
-        full_name: name,
-        status: 'pending',
-      });
-
-    if (profileError) return setError(profileError.message);
-
     // Show toast message
     setShowToast(true);
+    console.log('Toast shown, preparing to redirect...');
 
     // Redirect to login page after a short delay
     setTimeout(() => {
+      console.log('Redirecting to /login...');
       router.push('/login');
     }, 1000); // Adjust the delay as needed
   };
