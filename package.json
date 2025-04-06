@@ -12,6 +12,7 @@
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/supabase-js": "^2.49.4",
     "abcjs": "^6.4.4",
+    "dompurify": "^3.2.5",
     "langdetect": "^0.2.1",
     "lucide-react": "^0.487.0",
     "next": "15.2.4",
