@@ -68,7 +68,7 @@ export default function Register() {
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-100 to-white p-4">
       <div className="bg-white shadow-lg rounded-lg p-6 max-w-sm w-full animate-fade-in">
         <div className="flex flex-col items-center mb-6">
-          <img src="/logo.png" alt="Vivace Logo" className="w-26 h-26" />
+          <img src="/Logo.png" alt="Vivace Logo" className="w-26 h-26" />
           <h2 className="text-purple-600 text-lg font-semibold">Create an Account</h2>
           <p className="text-gray-600 text-sm">Join us and start your musical journey!</p>
         </div>
@@ -77,7 +77,7 @@ export default function Register() {
             <label className="text-purple-600 text-sm mb-1 block">Full Name</label>
             <input
               type="text"
-              placeholder="John Doe"
+              placeholder="Sikolia"
               onChange={(e) => setName(e.target.value)}
               className="w-full p-3 rounded-lg border border-purple-300 outline-none focus:ring-2 focus:ring-purple-500 bg-purple-50 text-purple-900 placeholder-gray-400"
             />
