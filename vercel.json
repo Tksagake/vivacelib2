@@ -9,10 +9,7 @@
     ],
    "functions": {
     "app/api/**/*": {
-      "maxDuration": 10
-    },
-    "app/api/deepseek-chat": {
-      "maxDuration": 10
+      "maxDuration": 60
     }
     }
 }
