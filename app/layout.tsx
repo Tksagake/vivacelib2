@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "VivaceKenya Library 2.0",
-  description: "Created with love by the Vivace Team",
+  description: "Powered by DiversiWorks Times Group",
 };
 
 export default function RootLayout({
