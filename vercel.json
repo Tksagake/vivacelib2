@@ -1,0 +1,16 @@
+{
+    "version": 3,   
+    "builds": [
+        {
+            "src": "app/api/**/*",
+            "use": "@vercel/node"
+        }
+    ],
+    
+  
+   "functions": {
+    "app/api/**/*": {
+      "maxDuration": 60
+    }
+    }
+}
