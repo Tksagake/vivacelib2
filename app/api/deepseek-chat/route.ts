@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export const config = {
   api: {
     bodyParser: {
-      sizeLimit: '100mb', // adjust if you're sending big prompts
+      sizeLimit: '500mb', // adjust if you're sending big prompts
     },
     responseLimit: false,
     externalResolver: true,
