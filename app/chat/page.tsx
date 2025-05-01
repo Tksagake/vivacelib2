@@ -117,6 +117,37 @@ export default function ChatPage() {
     }
   };
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const { data, error } = await supabase.storage
+        .from('attachments')
+        .upload(`public/${file.name}`, file);
+
+      if (error) {
+        console.error('Error uploading file:', error);
+        setError('Failed to upload file. Please try again.');
+        return;
+      }
+
+      const fileUrl = `${supabaseUrl}/storage/v1/object/public/attachments/${file.name}`;
+      const fileMessage: Message = { role: 'user', content: `<a href="${fileUrl}" target="_blank">${file.name}</a>` };
+      const updatedMessages = [...messages, fileMessage];
+      setMessages(updatedMessages);
+
+      const { error: saveError } = await supabase
+        .from('conversations')
+        .insert([{ user_id: 'user-uuid', message: JSON.stringify(updatedMessages) }]);
+
+      if (saveError) console.error('Error saving conversation:', saveError);
+    } catch (err) {
+      console.error('File upload error:', err);
+      setError('An unexpected error occurred.');
+    }
+  };
+
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       handleSend();
@@ -181,6 +212,18 @@ export default function ChatPage() {
               className="flex-1 border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
               placeholder="Type your message..."
             />
+            <input
+              type="file"
+              onChange={handleFileUpload}
+              className="hidden"
+              id="file-upload"
+            />
+            <label
+              htmlFor="file-upload"
+              className="p-3 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-600 flex items-center justify-center cursor-pointer"
+            >
+              📎
+            </label>
             <button
               onClick={handleSend}
               className="p-3 rounded-full bg-purple-600 hover:bg-purple-700 text-white flex items-center justify-center"
