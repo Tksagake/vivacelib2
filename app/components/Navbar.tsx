@@ -15,45 +15,45 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="bg-purple-50 shadow-sm py-3">
+    <nav className="bg-gradient-to-r from-cyan-50 to-blue-50 shadow-md py-3 border-b border-cyan-100">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         <a href="/" className="flex items-center space-x-3">
         <div className="flex items-center space-x-3">
           <Image
             src="/Logo.png"
-            alt="Vivace Music School Kenya Logo"
+            alt="Vivace Resource Centre Logo"
             width={120}
             height={48}
             className="object-contain"
             priority
           />
-          <h2 className="text-lg text-purple-700 font-medium hidden sm:block">
-            Vivace Music School Kenya
+          <h2 className="text-lg text-cyan-800 font-semibold hidden sm:block">
+            Vivace Resource Centre
           </h2>
         </div>
-        </a>z
+        </a>
         <div className="flex items-center space-x-4">
           
           {/* Library Link */}
-          <a href="/library" className="text-purple-600 hover:text-purple-800 flex items-center">
+          <a href="/library" className="text-cyan-700 hover:text-cyan-800 flex items-center font-medium">
             <BookOpen className="sm:mr-1" size={20} />
             <span className="hidden sm:inline">Library</span>
           </a>
           
           {/* Chat Link */}
-          <a href="/chat" className="text-purple-600 hover:text-purple-800 flex items-center">
+          <a href="/chat" className="text-cyan-700 hover:text-cyan-800 flex items-center font-medium">
             <MessageCircle className="sm:mr-1" size={20} />
             <span className="hidden sm:inline">Chat</span>
           </a>
           
           {/* YouTube Link */}
-          <a href="/youtube" className="text-purple-600 hover:text-purple-800 flex items-center">
+          <a href="/youtube" className="text-cyan-700 hover:text-cyan-800 flex items-center font-medium">
             <Music className="sm:mr-1" size={20} />
             <span className="hidden sm:inline">YouTube</span>
           </a>
           
           {/* Sheets Link */}
-          <a href="/sheets" className="text-purple-600 hover:text-purple-800 flex items-center">
+          <a href="/sheets" className="text-cyan-700 hover:text-cyan-800 flex items-center font-medium">
             <BookOpen className="sm:mr-1" size={20} />
             <span className="hidden sm:inline">Score Sheet</span>
           </a>
@@ -61,7 +61,7 @@ const Navbar: React.FC = () => {
           {/* Logout Button */}
           <button
             onClick={handleLogout}
-            className="text-sm text-red-600 hover:text-red-800 flex items-center"
+            className="text-sm text-red-600 hover:text-red-700 flex items-center font-medium"
             aria-label="Log out"
           >
             <LogOut className="sm:mr-1" size={20} />
