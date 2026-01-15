@@ -2,73 +2,112 @@ import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { BookOpen, MessageCircle, Music, LogOut } from 'lucide-react';
+import { BookOpen, MessageCircle, Video, Music2, LogOut, Menu, X } from 'lucide-react';
+import { useState } from 'react';
 
 const supabase = createClientComponentClient();
 
 const Navbar: React.FC = () => {
   const router = useRouter();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
     router.push('/login');
   };
 
+  const navLinks = [
+    { href: '/library', icon: BookOpen, label: 'Library' },
+    { href: '/chat', icon: MessageCircle, label: 'AI Chat' },
+    { href: '/youtube', icon: Video, label: 'Video Lessons' },
+    { href: '/sheets', icon: Music2, label: 'Score Editor' },
+  ];
+
   return (
-    <nav className="bg-purple-50 shadow-sm py-3">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        <a href="/" className="flex items-center space-x-3">
-        <div className="flex items-center space-x-3">
-          <Image
-            src="/Logo.png"
-            alt="Vivace Music School Kenya Logo"
-            width={120}
-            height={48}
-            className="object-contain"
-            priority
-          />
-          <h2 className="text-lg text-purple-700 font-medium hidden sm:block">
-            Vivace Music School Kenya
-          </h2>
-        </div>
-        </a>z
-        <div className="flex items-center space-x-4">
-          
-          {/* Library Link */}
-          <a href="/library" className="text-purple-600 hover:text-purple-800 flex items-center">
-            <BookOpen className="sm:mr-1" size={20} />
-            <span className="hidden sm:inline">Library</span>
+    <nav className="bg-white border-b border-[var(--neutral-200)] sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <a href="/dashboard" className="flex items-center gap-3 shrink-0">
+            <Image
+              src="/Logo.png"
+              alt="Vivace Music School Kenya"
+              width={48}
+              height={48}
+              className="object-contain"
+              priority
+            />
+            <div className="hidden sm:block">
+              <h2 className="text-sm font-semibold text-[var(--primary-900)]">
+                Vivace Music School
+              </h2>
+              <p className="text-xs text-[var(--neutral-500)]">Kenya</p>
+            </div>
           </a>
-          
-          {/* Chat Link */}
-          <a href="/chat" className="text-purple-600 hover:text-purple-800 flex items-center">
-            <MessageCircle className="sm:mr-1" size={20} />
-            <span className="hidden sm:inline">Chat</span>
-          </a>
-          
-          {/* YouTube Link */}
-          <a href="/youtube" className="text-purple-600 hover:text-purple-800 flex items-center">
-            <Music className="sm:mr-1" size={20} />
-            <span className="hidden sm:inline">YouTube</span>
-          </a>
-          
-          {/* Sheets Link */}
-          <a href="/sheets" className="text-purple-600 hover:text-purple-800 flex items-center">
-            <BookOpen className="sm:mr-1" size={20} />
-            <span className="hidden sm:inline">Score Sheet</span>
-          </a>
-          
-          {/* Logout Button */}
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-[var(--neutral-600)] hover:text-[var(--primary-700)] hover:bg-[var(--primary-50)] rounded-lg transition-colors"
+              >
+                <link.icon size={18} />
+                <span>{link.label}</span>
+              </a>
+            ))}
+          </div>
+
+          {/* Desktop Logout */}
+          <div className="hidden md:flex items-center">
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-[var(--error)] hover:bg-red-50 rounded-lg transition-colors"
+              aria-label="Log out"
+            >
+              <LogOut size={18} />
+              <span>Log Out</span>
+            </button>
+          </div>
+
+          {/* Mobile Menu Button */}
           <button
-            onClick={handleLogout}
-            className="text-sm text-red-600 hover:text-red-800 flex items-center"
-            aria-label="Log out"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden p-2 text-[var(--neutral-600)] hover:bg-[var(--neutral-100)] rounded-lg"
+            aria-label="Toggle menu"
           >
-            <LogOut className="sm:mr-1" size={20} />
-            <span className="hidden sm:inline">Log Out</span>
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-white border-t border-[var(--neutral-200)]">
+          <div className="px-4 py-4 space-y-1">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-[var(--neutral-700)] hover:text-[var(--primary-700)] hover:bg-[var(--primary-50)] rounded-lg transition-colors"
+              >
+                <link.icon size={20} />
+                <span>{link.label}</span>
+              </a>
+            ))}
+            <div className="pt-4 mt-4 border-t border-[var(--neutral-200)]">
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-[var(--error)] hover:bg-red-50 rounded-lg transition-colors"
+              >
+                <LogOut size={20} />
+                <span>Log Out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

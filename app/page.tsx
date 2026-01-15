@@ -2,37 +2,91 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Users, Shield, BookOpen } from 'lucide-react';
+import { BookOpen, Video, MessageSquare, Music2, Award, GraduationCap, Library, ChevronRight, Menu, X, Mail, Phone, MapPin } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Home() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const benefits = [
-    { title: 'Books in PDF', icon: BookOpen, description: 'Access a wide range of music books in PDF format for easy learning.' },
-    { title: 'YouTube Music Classes', icon: Users, description: 'Watch and learn from our music class videos on YouTube.' },
-    { title: 'AI Chatbot Support', icon: Shield, description: 'Get instant help and clarifications with our AI chatbot.' }
+  const features = [
+    { 
+      title: 'Digital Library', 
+      icon: Library, 
+      description: 'Access our extensive collection of music theory books, sheet music, and educational resources in PDF format.',
+      highlight: '500+ Resources'
+    },
+    { 
+      title: 'Video Lessons', 
+      icon: Video, 
+      description: 'Learn from expert instructors through our curated collection of music tutorials and masterclasses.',
+      highlight: 'HD Quality'
+    },
+    { 
+      title: 'AI Learning Assistant', 
+      icon: MessageSquare, 
+      description: 'Get personalized guidance and instant answers to your music theory questions with our intelligent assistant.',
+      highlight: '24/7 Available'
+    },
+    { 
+      title: 'Score Editor', 
+      icon: Music2, 
+      description: 'Create and edit musical scores with our intuitive notation editor powered by ABC notation.',
+      highlight: 'Export Ready'
+    }
+  ];
+
+  const stats = [
+    { value: '10,000+', label: 'Students Enrolled' },
+    { value: '500+', label: 'Learning Resources' },
+    { value: '50+', label: 'Expert Instructors' },
+    { value: '15+', label: 'Years of Excellence' }
   ];
 
   const testimonials = [
     {
-      name: "Jane Doe",
-      role: "Member",
-      content: "Vivace Music School Kenya Library has been a game-changer for my music learning journey.",
-      image: "/logo.png"
+      name: "Dr. Amina Wanjiku",
+      role: "Music Theory Instructor",
+      institution: "University of Nairobi",
+      content: "Vivace has transformed how we approach music education. The digital resources and AI assistant provide students with unprecedented access to quality learning materials.",
+      image: "/Logo.png"
     },
     {
-      name: "John Smith",
-      role: "Member",
-      content: "The resources and support provided here are unmatched. Highly recommend it!",
-      image: "/logo.png"
+      name: "Peter Omondi",
+      role: "Professional Musician",
+      institution: "Kenya National Symphony Orchestra",
+      content: "As a professional, I appreciate the depth and quality of resources available. The library collection rivals that of major international conservatories.",
+      image: "/Logo.png"
     },
     {
-      name: "Alice Johnson",
-      role: "Member",
-      content: "The AI chatbot has made understanding complex music concepts so much easier.",
-      image: "/logo.png"
+      name: "Grace Muthoni",
+      role: "ABRSM Grade 8 Student",
+      institution: "Vivace Music School",
+      content: "The video lessons and practice materials helped me achieve distinction in my Grade 8 examination. The AI assistant was invaluable for theory preparation.",
+      image: "/Logo.png"
+    }
+  ];
+
+  const programs = [
+    { 
+      title: 'ABRSM Preparation',
+      description: 'Comprehensive preparation materials for all ABRSM grade levels',
+      icon: Award
+    },
+    { 
+      title: 'Theory Fundamentals',
+      description: 'Master music theory from basics to advanced concepts',
+      icon: BookOpen
+    },
+    { 
+      title: 'Practical Skills',
+      description: 'Develop your instrumental and vocal techniques',
+      icon: Music2
+    },
+    { 
+      title: 'Professional Development',
+      description: 'Advanced courses for music educators and professionals',
+      icon: GraduationCap
     }
   ];
 
@@ -41,119 +95,298 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Navbar */}
-      <nav className="bg-white text-purple-900 p-4 flex justify-between items-center shadow-lg">
-        <div className="flex items-center gap-2">
-          <img src="/Logo.png" alt="Vivace Logo" className="w-28 h-28" />
-          <h1 className="text-2xl font-bold">Vivace Music School Kenya</h1>
+    <div className="min-h-screen flex flex-col bg-[var(--background)]">
+      {/* Navigation */}
+      <nav className="bg-white border-b border-[var(--neutral-200)] sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
+            <div className="flex items-center gap-4">
+              <Image 
+                src="/Logo.png" 
+                alt="Vivace Music School Kenya" 
+                width={80} 
+                height={80}
+                className="object-contain"
+                priority
+              />
+              <div className="hidden sm:block">
+                <h1 className="text-lg font-semibold text-[var(--primary-900)]">Vivace Music School</h1>
+                <p className="text-sm text-[var(--neutral-500)]">Kenya</p>
+              </div>
+            </div>
+            
+            <div className="hidden md:flex items-center gap-8">
+              <a href="#features" className="text-[var(--neutral-700)] hover:text-[var(--primary-700)] transition-colors font-medium">Features</a>
+              <a href="#programs" className="text-[var(--neutral-700)] hover:text-[var(--primary-700)] transition-colors font-medium">Programs</a>
+              <a href="#testimonials" className="text-[var(--neutral-700)] hover:text-[var(--primary-700)] transition-colors font-medium">Testimonials</a>
+              <a href="#contact" className="text-[var(--neutral-700)] hover:text-[var(--primary-700)] transition-colors font-medium">Contact</a>
+            </div>
+
+            <div className="hidden md:flex items-center gap-4">
+              <button
+                onClick={() => router.push("/login")}
+                className="px-5 py-2.5 text-[var(--primary-700)] font-medium hover:bg-[var(--primary-50)] rounded-md transition-colors"
+              >
+                Sign In
+              </button>
+              <button
+                onClick={() => router.push("/register")}
+                className="px-5 py-2.5 bg-[var(--primary-700)] text-white font-medium rounded-md hover:bg-[var(--primary-800)] transition-colors"
+              >
+                Get Started
+              </button>
+            </div>
+
+            <button 
+              onClick={toggleMenu} 
+              className="md:hidden p-2 text-[var(--neutral-700)] hover:bg-[var(--neutral-100)] rounded-md"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
-        <div className="space-x-6 hidden md:flex">
-          <button
-            onClick={() => router.push("/login")}
-            className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 hover:text-purple-900 transition-colors"
-          >
-            Login
-          </button>
-          <button
-            onClick={() => router.push("/register")}
-            className="bg-purple-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 hover:text-purple-900 transition-colors"
-          >
-            Register
-          </button>
-        </div>
-        <div className="md:hidden flex items-center">
-          <button onClick={toggleMenu} className="text-purple-900 hover:text-yellow focus:outline-none">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
-              {isMenuOpen ? (
-                <>
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </>
-              ) : (
-                <>
-                  <line x1="4" x2="20" y1="12" y2="12"></line>
-                  <line x1="4" x2="20" y1="6" y2="6"></line>
-                  <line x1="4" x2="20" y1="18" y2="18"></line>
-                </>
-              )}
-            </svg>
-          </button>
-        </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-white border-t border-[var(--neutral-200)]">
+            <div className="px-4 py-6 space-y-4">
+              <a href="#features" className="block py-2 text-[var(--neutral-700)] font-medium">Features</a>
+              <a href="#programs" className="block py-2 text-[var(--neutral-700)] font-medium">Programs</a>
+              <a href="#testimonials" className="block py-2 text-[var(--neutral-700)] font-medium">Testimonials</a>
+              <a href="#contact" className="block py-2 text-[var(--neutral-700)] font-medium">Contact</a>
+              <div className="pt-4 space-y-3 border-t border-[var(--neutral-200)]">
+                <button
+                  onClick={() => router.push("/login")}
+                  className="w-full py-3 text-[var(--primary-700)] font-medium border border-[var(--primary-700)] rounded-md hover:bg-[var(--primary-50)] transition-colors"
+                >
+                  Sign In
+                </button>
+                <button
+                  onClick={() => router.push("/register")}
+                  className="w-full py-3 bg-[var(--primary-700)] text-white font-medium rounded-md hover:bg-[var(--primary-800)] transition-colors"
+                >
+                  Get Started
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </nav>
 
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden flex flex-col space-y-4 p-4 bg-white text-purple-900 shadow-lg">
-          <button
-            onClick={() => router.push("/login")}
-            className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 hover:text-purple-900 transition-colors"
-          >
-            Login
-          </button>
-          <button
-            onClick={() => router.push("/register")}
-            className="bg-purple-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 hover:text-purple-900 transition-colors"
-          >
-            Register
-          </button>
-        </div>
-      )}
-
       {/* Hero Section */}
-      <header className="bg-purple-100 text-purple-900 py-20 relative">
-        <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGlicmFyeXxlbnwwfHwwfHx8MA%3D%3D"
-            alt="Library"
-            className="w-full h-full object-cover opacity-20"
-          />
-        </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">Welcome to VivaceKenya Library</h1>
-          <p className="text-xl mb-8 max-w-3xl mx-auto">
-            Your ultimate resource for music learning with PDF books, YouTube classes, and AI chatbot support.
-          </p>
-          <button
-            onClick={() => router.push("/register")}
-            className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors shadow-lg"
-          >
-            Join Us Today
-          </button>
+      <header className="relative bg-gradient-to-br from-[var(--primary-900)] via-[var(--primary-800)] to-[var(--primary-700)] overflow-hidden">
+        <div className="absolute inset-0 opacity-10 bg-gradient-to-br from-white/5 to-transparent"></div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-white/90 text-sm mb-6">
+                <Award size={16} />
+                <span>Established 2009 • Trusted by 10,000+ Students</span>
+              </div>
+              
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                Your Gateway to
+                <span className="block text-[var(--accent-400)]">Music Excellence</span>
+              </h1>
+              
+              <p className="text-lg md:text-xl text-white/80 mb-8 max-w-xl mx-auto lg:mx-0">
+                Access Kenya&apos;s premier digital music library. Comprehensive resources for ABRSM preparation, 
+                theory mastery, and professional development.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <button
+                  onClick={() => router.push("/register")}
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-[var(--primary-800)] font-semibold rounded-lg hover:bg-[var(--accent-100)] transition-colors shadow-lg"
+                >
+                  Start Learning Today
+                  <ChevronRight size={20} />
+                </button>
+                <button
+                  onClick={() => router.push("/login")}
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 transition-colors"
+                >
+                  Explore Library
+                </button>
+              </div>
+            </div>
+            
+            <div className="hidden lg:flex justify-center">
+              <div className="relative">
+                <div className="absolute -inset-4 bg-gradient-to-r from-[var(--accent-500)] to-[var(--secondary-500)] rounded-2xl blur-2xl opacity-30"></div>
+                <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+                  <Image 
+                    src="/Logo.png" 
+                    alt="Vivace Music School" 
+                    width={300} 
+                    height={300}
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </header>
 
-      {/* Benefits Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center mb-12 text-purple-900">Our Features</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {benefits.map((benefit, index) => (
-              <div key={index} className="p-6 border rounded-lg hover:shadow-lg transition duration-300">
-                <benefit.icon className="h-12 w-12 text-purple-600 mb-4 mx-auto" />
-                <h3 className="text-2xl font-semibold mb-2 text-purple-900 text-center">{benefit.title}</h3>
-                <p className="text-gray-700 text-center">{benefit.description}</p>
+      {/* Stats Section */}
+      <section className="bg-white border-b border-[var(--neutral-200)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-[var(--primary-700)] mb-2">{stat.value}</div>
+                <div className="text-sm text-[var(--neutral-600)] font-medium">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-16 bg-gray-50">
+      {/* Features Section */}
+      <section id="features" className="py-20 lg:py-28 bg-[var(--background)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center mb-12 text-purple-900">What Our Members Say</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-white p-6 rounded-lg shadow-md">
-                <div className="flex items-center mb-4">
-                  <img src={testimonial.image} alt={testimonial.name} className="w-12 h-12 rounded-full mr-4" />
-                  <div>
-                    <h4 className="font-semibold text-purple-900">{testimonial.name}</h4>
-                    <p className="text-gray-600">{testimonial.role}</p>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-[var(--primary-900)] mb-4">
+              Comprehensive Learning Platform
+            </h2>
+            <p className="text-lg text-[var(--neutral-600)] max-w-2xl mx-auto">
+              Everything you need to excel in your musical journey, from beginner to professional level.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {features.map((feature, index) => (
+              <div 
+                key={index} 
+                className="bg-white rounded-xl p-6 border border-[var(--neutral-200)] hover:border-[var(--primary-300)] hover:shadow-lg transition-all duration-300 group"
+              >
+                <div className="w-14 h-14 bg-[var(--primary-100)] rounded-lg flex items-center justify-center mb-5 group-hover:bg-[var(--primary-700)] transition-colors">
+                  <feature.icon className="w-7 h-7 text-[var(--primary-700)] group-hover:text-white transition-colors" />
+                </div>
+                <div className="inline-block px-3 py-1 bg-[var(--accent-100)] text-[var(--accent-700)] text-xs font-semibold rounded-full mb-3">
+                  {feature.highlight}
+                </div>
+                <h3 className="text-xl font-semibold text-[var(--primary-900)] mb-3">{feature.title}</h3>
+                <p className="text-[var(--neutral-600)] leading-relaxed">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Programs Section */}
+      <section id="programs" className="py-20 lg:py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold text-[var(--primary-900)] mb-6">
+                Programs Designed for Excellence
+              </h2>
+              <p className="text-lg text-[var(--neutral-600)] mb-8">
+                Our curriculum is aligned with international standards including ABRSM, Trinity, and LCME. 
+                Whether you&apos;re preparing for examinations or pursuing professional development, we have the right program for you.
+              </p>
+              
+              <div className="space-y-4">
+                {programs.map((program, index) => (
+                  <div 
+                    key={index}
+                    className="flex items-start gap-4 p-4 rounded-lg hover:bg-[var(--primary-50)] transition-colors cursor-pointer group"
+                  >
+                    <div className="w-12 h-12 bg-[var(--secondary-100)] rounded-lg flex items-center justify-center shrink-0 group-hover:bg-[var(--secondary-500)] transition-colors">
+                      <program.icon className="w-6 h-6 text-[var(--secondary-700)] group-hover:text-white transition-colors" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-[var(--primary-900)] mb-1">{program.title}</h3>
+                      <p className="text-sm text-[var(--neutral-600)]">{program.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              <button 
+                onClick={() => router.push("/register")}
+                className="mt-8 inline-flex items-center gap-2 px-6 py-3 bg-[var(--primary-700)] text-white font-semibold rounded-lg hover:bg-[var(--primary-800)] transition-colors"
+              >
+                View All Programs
+                <ChevronRight size={20} />
+              </button>
+            </div>
+            
+            <div className="relative">
+              <div className="bg-gradient-to-br from-[var(--primary-100)] to-[var(--secondary-100)] rounded-2xl p-8 lg:p-12">
+                <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-[var(--accent-500)] rounded-full flex items-center justify-center">
+                      <Award className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-[var(--primary-900)]">ABRSM Certification</div>
+                      <div className="text-sm text-[var(--neutral-500)]">Internationally Recognized</div>
+                    </div>
+                  </div>
+                  <div className="h-2 bg-[var(--neutral-100)] rounded-full overflow-hidden">
+                    <div className="h-full w-4/5 bg-gradient-to-r from-[var(--secondary-500)] to-[var(--primary-500)] rounded-full"></div>
+                  </div>
+                  <div className="mt-2 text-sm text-[var(--neutral-600)]">95% Pass Rate</div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-white rounded-lg p-4 text-center shadow">
+                    <div className="text-2xl font-bold text-[var(--primary-700)]">8</div>
+                    <div className="text-xs text-[var(--neutral-600)]">ABRSM Grades</div>
+                  </div>
+                  <div className="bg-white rounded-lg p-4 text-center shadow">
+                    <div className="text-2xl font-bold text-[var(--secondary-600)]">4</div>
+                    <div className="text-xs text-[var(--neutral-600)]">Diploma Levels</div>
                   </div>
                 </div>
-                <p className="text-gray-700">{testimonial.content}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section id="testimonials" className="py-20 lg:py-28 bg-[var(--primary-50)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-[var(--primary-900)] mb-4">
+              Trusted by Music Educators & Students
+            </h2>
+            <p className="text-lg text-[var(--neutral-600)] max-w-2xl mx-auto">
+              Hear from our community of learners and professionals across Kenya.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <div 
+                key={index} 
+                className="bg-white rounded-xl p-8 border border-[var(--neutral-200)] shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-14 h-14 bg-[var(--primary-100)] rounded-full overflow-hidden flex items-center justify-center">
+                    <Image 
+                      src={testimonial.image} 
+                      alt={testimonial.name} 
+                      width={56} 
+                      height={56}
+                      className="object-cover"
+                    />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-[var(--primary-900)]">{testimonial.name}</h4>
+                    <p className="text-sm text-[var(--neutral-600)]">{testimonial.role}</p>
+                    <p className="text-xs text-[var(--accent-600)]">{testimonial.institution}</p>
+                  </div>
+                </div>
+                <blockquote className="text-[var(--neutral-700)] leading-relaxed italic">
+                  &ldquo;{testimonial.content}&rdquo;
+                </blockquote>
               </div>
             ))}
           </div>
@@ -161,112 +394,141 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-purple-900 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-4">Ready to Enhance Your Music Skills?</h2>
-          <p className="text-xl mb-8">Join Vivace Music School Kenya Library and take your music learning to the next level.</p>
-          <button
-            onClick={() => router.push("/register")}
-            className="inline-block bg-purple-600 text-white px-8 py-3 rounded-md font-semibold hover:bg-purple-700 transition shadow-lg"
-          >
-            Get Started
-          </button>
+      <section className="py-20 lg:py-28 bg-gradient-to-r from-[var(--primary-800)] to-[var(--primary-900)]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            Begin Your Musical Journey Today
+          </h2>
+          <p className="text-xl text-white/80 mb-10 max-w-2xl mx-auto">
+            Join thousands of students who have transformed their musical abilities through our comprehensive learning platform.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={() => router.push("/register")}
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-[var(--primary-800)] font-semibold rounded-lg hover:bg-[var(--accent-100)] transition-colors shadow-lg"
+            >
+              Create Free Account
+              <ChevronRight size={20} />
+            </button>
+            <button
+              onClick={() => router.push("/login")}
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 transition-colors"
+            >
+              Sign In
+            </button>
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-purple-950 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-2xl font-bold mb-4">Vivace Music School Kenya</h3>
-              <p className="text-gray-300">Empowering musicians. Enhancing skills.</p>
+      <footer id="contact" className="bg-[var(--primary-900)] text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+            <div className="lg:col-span-1">
+              <div className="flex items-center gap-3 mb-6">
+                <Image 
+                  src="/Logo.png" 
+                  alt="Vivace Music School Kenya" 
+                  width={60} 
+                  height={60}
+                  className="object-contain brightness-0 invert"
+                />
+                <div>
+                  <h3 className="text-lg font-bold">Vivace Music School</h3>
+                  <p className="text-sm text-white/60">Kenya</p>
+                </div>
+              </div>
+              <p className="text-white/70 text-sm leading-relaxed">
+                Empowering the next generation of musicians through quality education and innovative digital resources.
+              </p>
             </div>
+            
             <div>
-  <h3 className="font-semibold text-xl mb-4">Quick Links</h3>
-  <ul className="space-y-2">
-    <li>
-      <a 
-        href="https://www.vivaceke.co.ke" 
-        target="_blank" 
-        rel="noopener noreferrer"
-        className="text-gray-300 hover:text-purple-300 transition-colors"
-      >
-        Benefits
-      </a>
-    </li>
-    <li>
-      <a 
-        href="https://www.vivaceke.co.ke/about" 
-        target="_blank" 
-        rel="noopener noreferrer"
-        className="text-gray-300 hover:text-purple-300 transition-colors"
-      >
-        About Us
-      </a>
-    </li>
-    <li>
-      <a 
-        href="https://www.vivaceke.co.ke/contact" 
-        target="_blank" 
-        rel="noopener noreferrer"
-        className="text-gray-300 hover:text-purple-300 transition-colors"
-      >
-        Contact
-      </a>
-    </li>
-  </ul>
-</div>
-            <div>
-              <h4 className="text-xl font-semibold mb-4">Contact Info</h4>
-              <ul className="space-y-2">
-                <li className="flex items-center space-x-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                  </svg>
-                  <span className="text-gray-300">info@vivaceke.co.ke</span>
+              <h4 className="text-lg font-semibold mb-6">Quick Links</h4>
+              <ul className="space-y-3">
+                <li>
+                  <a href="https://www.vivaceke.co.ke" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-[var(--accent-400)] transition-colors text-sm">
+                    About Us
+                  </a>
                 </li>
-                <li className="flex items-center space-x-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                  </svg>
-                  <span className="text-gray-300">+254-795-958-448</span>
+                <li>
+                  <a href="https://www.vivaceke.co.ke/about" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-[var(--accent-400)] transition-colors text-sm">
+                    Our Programs
+                  </a>
                 </li>
-                <li className="flex items-center space-x-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                  </svg>
-                  <span className="text-gray-300">5th Floor, Juja Square</span>
+                <li>
+                  <a href="https://www.vivaceke.co.ke/contact" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-[var(--accent-400)] transition-colors text-sm">
+                    Resources
+                  </a>
+                </li>
+                <li>
+                  <a href="/register" className="text-white/70 hover:text-[var(--accent-400)] transition-colors text-sm">
+                    Enroll Now
+                  </a>
                 </li>
               </ul>
             </div>
+            
             <div>
-              <h4 className="text-xl font-semibold mb-4">Follow Us</h4>
-              <div className="flex space-x-4">
-                <a href="#" className="text-gray-300 hover:text-purple-300 transition">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
+              <h4 className="text-lg font-semibold mb-6">Contact Information</h4>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <Mail size={18} className="text-[var(--accent-400)] mt-0.5 shrink-0" />
+                  <span className="text-white/70 text-sm">info@vivaceke.co.ke</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Phone size={18} className="text-[var(--accent-400)] mt-0.5 shrink-0" />
+                  <span className="text-white/70 text-sm">+254 795 958 448</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <MapPin size={18} className="text-[var(--accent-400)] mt-0.5 shrink-0" />
+                  <span className="text-white/70 text-sm">5th Floor, Juja Square<br />Juja, Kenya</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="text-lg font-semibold mb-6">Connect With Us</h4>
+              <div className="flex gap-4 mb-6">
+                <a href="#" className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-[var(--accent-500)] transition-colors" aria-label="Facebook">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                   </svg>
                 </a>
-                <a href="#" className="text-gray-300 hover:text-purple-300 transition">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
+                <a href="#" className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-[var(--accent-500)] transition-colors" aria-label="Twitter">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
                   </svg>
                 </a>
-                <a href="#" className="text-gray-300 hover:text-purple-300 transition">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
+                <a href="#" className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-[var(--accent-500)] transition-colors" aria-label="LinkedIn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
                     <rect width="4" height="12" x="2" y="9"></rect>
                     <circle cx="4" cy="4" r="2"></circle>
                   </svg>
                 </a>
+                <a href="#" className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-[var(--accent-500)] transition-colors" aria-label="YouTube">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/>
+                    <path d="m10 15 5-3-5-3z"/>
+                  </svg>
+                </a>
               </div>
+              <p className="text-white/50 text-xs">
+                Subscribe to our newsletter for updates on new resources and programs.
+              </p>
             </div>
           </div>
-          <div className="border-t border-gray-700 mt-8 pt-8 text-center">
-            <p className="text-gray-300">© 2025 Vivace Music School Kenya. All rights reserved. Powered by DiversiWorks Times Group.</p>
+          
+          <div className="border-t border-white/10 mt-12 pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+              <p className="text-white/50 text-sm text-center md:text-left">
+                © 2025 Vivace Music School Kenya. All rights reserved.
+              </p>
+              <p className="text-white/50 text-sm">
+                Powered by <span className="text-[var(--accent-400)]">DiversiWorks Times Group</span>
+              </p>
+            </div>
           </div>
         </div>
       </footer>
