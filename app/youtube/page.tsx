@@ -64,19 +64,19 @@ export default function YouTubePage() {
       {/* Import and use the Navbar component */}
       <Navbar />
 
-      <h1 className="text-3xl font-bold text-center text-purple-800 mb-6">📺 YouTube Music Classes</h1>
+      <h1 className="text-3xl font-bold text-center text-cyan-800 mb-6">📺 YouTube Music Classes</h1>
 
       <div className="flex justify-center gap-2 mb-6">
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="border p-3 rounded w-full max-w-md border-purple-300 focus:ring-2 focus:ring-purple-500"
+          className="border p-3 rounded w-full max-w-md border-cyan-300 focus:ring-2 focus:ring-cyan-500"
           placeholder="Search for music classes..."
         />
         <button
           onClick={searchYouTube}
-          className="bg-purple-600 text-white p-3 rounded hover:bg-purple-700"
+          className="bg-cyan-600 text-white p-3 rounded hover:bg-cyan-700"
         >
           Search
         </button>
@@ -84,8 +84,8 @@ export default function YouTubePage() {
 
       {loading && (
         <div className="text-center mt-6">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500 mx-auto"></div>
-          <p className="mt-4 text-purple-600">Loading...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500 mx-auto"></div>
+          <p className="mt-4 text-cyan-600">Loading...</p>
         </div>
       )}
 
@@ -93,7 +93,7 @@ export default function YouTubePage() {
         {videos.map((video) => (
           <div
             key={video.id.videoId}
-            className={`bg-gradient-to-br from-purple-100 to-white text-purple-800 p-4 rounded-lg shadow-lg transform transition ${
+            className={`bg-gradient-to-br from-cyan-100 to-white text-cyan-800 p-4 rounded-lg shadow-lg transform transition ${
               selectedVideo?.id.videoId === video.id.videoId ? 'scale-105 col-span-3' : 'hover:scale-105'
             }`}
             onClick={() => setSelectedVideo(video)}
@@ -118,12 +118,12 @@ export default function YouTubePage() {
 
       {/* Recommended Videos Section */}
       <div className="mt-10">
-        <h2 className="text-2xl font-bold text-center text-purple-800 mb-4">Recommended Videos</h2>
+        <h2 className="text-2xl font-bold text-center text-cyan-800 mb-4">Recommended Videos</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {recommendedVideos.map((video) => (
             <div
               key={video.id.videoId}
-              className={`bg-gradient-to-br from-purple-100 to-white text-purple-800 p-4 rounded-lg shadow-lg transform transition ${
+              className={`bg-gradient-to-br from-cyan-100 to-white text-cyan-800 p-4 rounded-lg shadow-lg transform transition ${
                 selectedVideo?.id.videoId === video.id.videoId ? 'scale-105 col-span-3' : 'hover:scale-105'
               }`}
               onClick={() => setSelectedVideo(video)}

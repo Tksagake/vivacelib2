@@ -151,7 +151,7 @@ export default function MusicEditor() {
           <div className="relative">
             <button
               onClick={() => toggleDropdown('clefs')}
-              className="w-full p-2 bg-purple-500 text-white rounded flex justify-between items-center"
+              className="w-full p-2 bg-cyan-500 text-white rounded flex justify-between items-center"
             >
               Clefs
               <span>{activeDropdown === 'clefs' ? '▲' : '▼'}</span>
@@ -162,7 +162,7 @@ export default function MusicEditor() {
                   <button
                     key={clef}
                     onClick={() => updateNotation(`[K:${clef}]`)}
-                    className="p-2 bg-purple-100 hover:bg-purple-200 rounded text-center"
+                    className="p-2 bg-cyan-100 hover:bg-cyan-200 rounded text-center"
                     title={`Set clef to ${clef}`}
                   >
                     {clef}
@@ -275,7 +275,7 @@ export default function MusicEditor() {
 
         {/* Music Display & Editor */}
         <div className="flex flex-col w-full md:w-3/4 p-4">
-          <h1 className="text-3xl font-bold mb-4 text-purple-700">🎼 ABC Notation Music Editor</h1>
+          <h1 className="text-3xl font-bold mb-4 text-cyan-700">🎼 ABC Notation Music Editor</h1>
 
           <div id="music-display" className="border p-4 bg-gray-100 w-full shadow-md mb-4"></div>
 

@@ -19,7 +19,7 @@ export default function Home() {
     {
       name: "Jane Doe",
       role: "Member",
-      content: "Vivace Music School Kenya Library has been a game-changer for my music learning journey.",
+      content: "Vivace Resource Centre has been a game-changer for my music learning journey.",
       image: "/logo.png"
     },
     {
@@ -43,27 +43,27 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Navbar */}
-      <nav className="bg-white text-purple-900 p-4 flex justify-between items-center shadow-lg">
+      <nav className="bg-white text-cyan-900 p-4 flex justify-between items-center shadow-lg">
         <div className="flex items-center gap-2">
           <img src="/Logo.png" alt="Vivace Logo" className="w-28 h-28" />
-          <h1 className="text-2xl font-bold">Vivace Music School Kenya</h1>
+          <h1 className="text-2xl font-bold">Vivace Resource Centre</h1>
         </div>
         <div className="space-x-6 hidden md:flex">
           <button
             onClick={() => router.push("/login")}
-            className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 hover:text-purple-900 transition-colors"
+            className="bg-cyan-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-cyan-700 transition-colors"
           >
             Login
           </button>
           <button
             onClick={() => router.push("/register")}
-            className="bg-purple-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 hover:text-purple-900 transition-colors"
+            className="bg-cyan-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-cyan-800 transition-colors"
           >
             Register
           </button>
         </div>
         <div className="md:hidden flex items-center">
-          <button onClick={toggleMenu} className="text-purple-900 hover:text-yellow focus:outline-none">
+          <button onClick={toggleMenu} className="text-cyan-900 hover:text-cyan-600 focus:outline-none">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
               {isMenuOpen ? (
                 <>
@@ -84,16 +84,16 @@ export default function Home() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden flex flex-col space-y-4 p-4 bg-white text-purple-900 shadow-lg">
+        <div className="md:hidden flex flex-col space-y-4 p-4 bg-white text-cyan-900 shadow-lg">
           <button
             onClick={() => router.push("/login")}
-            className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 hover:text-purple-900 transition-colors"
+            className="bg-cyan-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-cyan-700 transition-colors"
           >
             Login
           </button>
           <button
             onClick={() => router.push("/register")}
-            className="bg-purple-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 hover:text-purple-900 transition-colors"
+            className="bg-cyan-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-cyan-800 transition-colors"
           >
             Register
           </button>
@@ -101,22 +101,22 @@ export default function Home() {
       )}
 
       {/* Hero Section */}
-      <header className="bg-purple-100 text-purple-900 py-20 relative">
+      <header className="bg-gradient-to-r from-cyan-50 to-blue-50 text-cyan-900 py-20 relative">
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGlicmFyeXxlbnwwfHwwfHx8MA%3D%3D"
             alt="Library"
-            className="w-full h-full object-cover opacity-20"
+            className="w-full h-full object-cover opacity-15"
           />
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">Welcome to VivaceKenya Library</h1>
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">Welcome to Vivace Resource Centre</h1>
           <p className="text-xl mb-8 max-w-3xl mx-auto">
-            Your ultimate resource for music learning with PDF books, YouTube classes, and AI chatbot support.
+            Your comprehensive hub for music learning with PDF books, YouTube classes, and AI-powered support.
           </p>
           <button
             onClick={() => router.push("/register")}
-            className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors shadow-lg"
+            className="bg-cyan-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-cyan-700 transition-colors shadow-lg"
           >
             Join Us Today
           </button>
@@ -126,12 +126,12 @@ export default function Home() {
       {/* Benefits Section */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center mb-12 text-purple-900">Our Features</h2>
+          <h2 className="text-4xl font-bold text-center mb-12 text-cyan-900">Our Features</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {benefits.map((benefit, index) => (
-              <div key={index} className="p-6 border rounded-lg hover:shadow-lg transition duration-300">
-                <benefit.icon className="h-12 w-12 text-purple-600 mb-4 mx-auto" />
-                <h3 className="text-2xl font-semibold mb-2 text-purple-900 text-center">{benefit.title}</h3>
+              <div key={index} className="p-6 border border-cyan-100 rounded-lg hover:shadow-xl hover:border-cyan-300 transition duration-300 bg-gradient-to-br from-white to-cyan-50">
+                <benefit.icon className="h-12 w-12 text-cyan-600 mb-4 mx-auto" />
+                <h3 className="text-2xl font-semibold mb-2 text-cyan-900 text-center">{benefit.title}</h3>
                 <p className="text-gray-700 text-center">{benefit.description}</p>
               </div>
             ))}
@@ -140,16 +140,16 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gradient-to-br from-cyan-50 to-blue-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center mb-12 text-purple-900">What Our Members Say</h2>
+          <h2 className="text-4xl font-bold text-center mb-12 text-cyan-900">What Our Members Say</h2>
           <div className="grid md:grid-cols-2 gap-8">
             {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-white p-6 rounded-lg shadow-md">
+              <div key={index} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
                 <div className="flex items-center mb-4">
                   <img src={testimonial.image} alt={testimonial.name} className="w-12 h-12 rounded-full mr-4" />
                   <div>
-                    <h4 className="font-semibold text-purple-900">{testimonial.name}</h4>
+                    <h4 className="font-semibold text-cyan-900">{testimonial.name}</h4>
                     <p className="text-gray-600">{testimonial.role}</p>
                   </div>
                 </div>
@@ -161,13 +161,13 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-purple-900 text-white py-16">
+      <section className="bg-gradient-to-r from-cyan-700 to-cyan-800 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-4">Ready to Enhance Your Music Skills?</h2>
-          <p className="text-xl mb-8">Join Vivace Music School Kenya Library and take your music learning to the next level.</p>
+          <p className="text-xl mb-8">Join Vivace Resource Centre and take your music learning to the next level.</p>
           <button
             onClick={() => router.push("/register")}
-            className="inline-block bg-purple-600 text-white px-8 py-3 rounded-md font-semibold hover:bg-purple-700 transition shadow-lg"
+            className="inline-block bg-white text-cyan-700 px-8 py-4 rounded-lg font-semibold hover:bg-cyan-50 transition shadow-lg"
           >
             Get Started
           </button>
@@ -175,11 +175,11 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-purple-950 text-white">
+      <footer className="bg-gradient-to-r from-cyan-900 to-cyan-950 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="text-2xl font-bold mb-4">Vivace Music School Kenya</h3>
+              <h3 className="text-2xl font-bold mb-4">Vivace Resource Centre</h3>
               <p className="text-gray-300">Empowering musicians. Enhancing skills.</p>
             </div>
             <div>
@@ -190,7 +190,7 @@ export default function Home() {
         href="https://www.vivaceke.co.ke" 
         target="_blank" 
         rel="noopener noreferrer"
-        className="text-gray-300 hover:text-purple-300 transition-colors"
+        className="text-gray-300 hover:text-cyan-300 transition-colors"
       >
         Benefits
       </a>
@@ -200,7 +200,7 @@ export default function Home() {
         href="https://www.vivaceke.co.ke/about" 
         target="_blank" 
         rel="noopener noreferrer"
-        className="text-gray-300 hover:text-purple-300 transition-colors"
+        className="text-gray-300 hover:text-cyan-300 transition-colors"
       >
         About Us
       </a>
@@ -210,7 +210,7 @@ export default function Home() {
         href="https://www.vivaceke.co.ke/contact" 
         target="_blank" 
         rel="noopener noreferrer"
-        className="text-gray-300 hover:text-purple-300 transition-colors"
+        className="text-gray-300 hover:text-cyan-300 transition-colors"
       >
         Contact
       </a>
@@ -245,17 +245,17 @@ export default function Home() {
             <div>
               <h4 className="text-xl font-semibold mb-4">Follow Us</h4>
               <div className="flex space-x-4">
-                <a href="#" className="text-gray-300 hover:text-purple-300 transition">
+                <a href="#" className="text-gray-300 hover:text-cyan-300 transition">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
                     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                   </svg>
                 </a>
-                <a href="#" className="text-gray-300 hover:text-purple-300 transition">
+                <a href="#" className="text-gray-300 hover:text-cyan-300 transition">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
                     <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
                   </svg>
                 </a>
-                <a href="#" className="text-gray-300 hover:text-purple-300 transition">
+                <a href="#" className="text-gray-300 hover:text-cyan-300 transition">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
                     <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
                     <rect width="4" height="12" x="2" y="9"></rect>
@@ -266,7 +266,7 @@ export default function Home() {
             </div>
           </div>
           <div className="border-t border-gray-700 mt-8 pt-8 text-center">
-            <p className="text-gray-300">© 2025 Vivace Music School Kenya. All rights reserved. Powered by DiversiWorks Times Group.</p>
+            <p className="text-gray-300">© 2025 Vivace Resource Centre. All rights reserved. Powered by DiversiWorks Times Group.</p>
           </div>
         </div>
       </footer>

@@ -173,7 +173,7 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex h-screen bg-white">
+    <div className="flex h-screen bg-gradient-to-br from-cyan-50 to-blue-50">
       <Sidebar conversations={conversations} onSelectConversation={handleSelectConversation} />
 
       <div className="flex flex-col flex-1 relative">
@@ -183,8 +183,8 @@ export default function ChatPage() {
           {messages.map((msg, idx) => (
             <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div
-                className={`rounded-2xl p-4 max-w-lg text-sm shadow ${
-                  msg.role === 'user' ? 'bg-purple-600 text-white' : 'bg-gray-100 text-gray-800'
+                className={`rounded-2xl p-4 max-w-lg text-sm shadow-lg ${
+                  msg.role === 'user' ? 'bg-gradient-to-r from-cyan-600 to-cyan-700 text-white' : 'bg-white text-gray-800 border border-cyan-100'
                 }`}
                 dangerouslySetInnerHTML={{ __html: msg.content }}
               />
@@ -193,7 +193,7 @@ export default function ChatPage() {
 
           {loading && (
             <div className="flex justify-start">
-              <div className="rounded-2xl p-4 max-w-lg text-sm bg-gray-100 text-gray-800 animate-pulse">
+              <div className="rounded-2xl p-4 max-w-lg text-sm bg-white text-gray-800 animate-pulse border border-cyan-100">
                 Typing...
               </div>
             </div>
@@ -202,14 +202,14 @@ export default function ChatPage() {
           <div ref={chatEndRef} />
         </main>
 
-        <div className="absolute bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200">
+        <div className="absolute bottom-0 left-0 right-0 p-4 bg-white border-t border-cyan-200 shadow-lg">
           <div className="flex items-center gap-2 text-black">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyPress}
-              className="flex-1 border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="flex-1 border border-cyan-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 bg-cyan-50"
               placeholder="Type your message..."
             />
             <input
@@ -220,13 +220,13 @@ export default function ChatPage() {
             />
             <label
               htmlFor="file-upload"
-              className="p-3 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-600 flex items-center justify-center cursor-pointer"
+              className="p-3 rounded-full bg-cyan-100 hover:bg-cyan-200 text-cyan-700 flex items-center justify-center cursor-pointer transition-all"
             >
               📎
             </label>
             <button
               onClick={handleSend}
-              className="p-3 rounded-full bg-purple-600 hover:bg-purple-700 text-white flex items-center justify-center"
+              className="p-3 rounded-full bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 text-white flex items-center justify-center shadow-lg transition-all"
             >
               <SendHorizonal size={20} />
             </button>

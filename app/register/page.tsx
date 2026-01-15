@@ -54,39 +54,39 @@ export default function Register() {
   }, [showToast]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-100 to-white p-4">
-      <div className="bg-white shadow-lg rounded-lg p-6 max-w-sm w-full animate-fade-in">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-cyan-50 via-blue-50 to-white p-4">
+      <div className="bg-white shadow-xl rounded-2xl p-8 max-w-sm w-full animate-fade-in border border-cyan-100">
         <div className="flex flex-col items-center mb-6">
           <img src="/Logo.png" alt="Vivace Logo" className="w-26 h-26" />
-          <h2 className="text-purple-600 text-lg font-semibold">Create an Account</h2>
-          <p className="text-gray-600 text-sm">Join us and start your musical journey!</p>
+          <h2 className="text-cyan-700 text-2xl font-bold mt-4">Create an Account</h2>
+          <p className="text-gray-600 text-sm mt-1">Join us and start your musical journey!</p>
         </div>
         <form onSubmit={handleRegister} className="space-y-4">
           <div>
-            <label className="text-purple-600 text-sm mb-1 block">Full Name</label>
+            <label className="text-cyan-700 text-sm font-medium mb-2 block">Full Name</label>
             <input
               type="text"
               placeholder="Sikolia"
               onChange={(e) => setName(e.target.value)}
-              className="w-full p-3 rounded-lg border border-purple-300 outline-none focus:ring-2 focus:ring-purple-500 bg-purple-50 text-purple-900 placeholder-gray-400"
+              className="w-full p-3 rounded-lg border border-cyan-200 outline-none focus:ring-2 focus:ring-cyan-500 bg-cyan-50 text-gray-900 placeholder-gray-400"
             />
           </div>
           <div>
-            <label className="text-purple-600 text-sm mb-1 block">Email Address</label>
+            <label className="text-cyan-700 text-sm font-medium mb-2 block">Email Address</label>
             <input
               type="email"
               placeholder="you@example.com"
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 rounded-lg border border-purple-300 outline-none focus:ring-2 focus:ring-purple-500 bg-purple-50 text-purple-900 placeholder-gray-400"
+              className="w-full p-3 rounded-lg border border-cyan-200 outline-none focus:ring-2 focus:ring-cyan-500 bg-cyan-50 text-gray-900 placeholder-gray-400"
             />
           </div>
           <div>
-            <label className="text-purple-600 text-sm mb-1 block">Password</label>
+            <label className="text-cyan-700 text-sm font-medium mb-2 block">Password</label>
             <input
               type="password"
               placeholder="••••••••"
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 rounded-lg border border-purple-300 outline-none focus:ring-2 focus:ring-purple-500 bg-purple-50 text-purple-900 placeholder-gray-400"
+              className="w-full p-3 rounded-lg border border-cyan-200 outline-none focus:ring-2 focus:ring-cyan-500 bg-cyan-50 text-gray-900 placeholder-gray-400"
             />
           </div>
           <div className="flex items-center">
@@ -95,15 +95,15 @@ export default function Register() {
               id="agree"
               checked={agree}
               onChange={(e) => setAgree(e.target.checked)}
-              className="mr-2"
+              className="mr-2 w-4 h-4 accent-cyan-600"
             />
-            <label htmlFor="agree" className="text-purple-600 text-sm">
+            <label htmlFor="agree" className="text-gray-700 text-sm">
               I agree to the{' '}
-              <a href="/privacy-policy" className="underline hover:text-purple-500">
+              <a href="/privacy-policy" className="text-cyan-600 underline hover:text-cyan-700">
                 Privacy Policy
               </a>{' '}
               and{' '}
-              <a href="/terms-and-conditions" className="underline hover:text-purple-500">
+              <a href="/terms-and-conditions" className="text-cyan-600 underline hover:text-cyan-700">
                 Terms and Conditions
               </a>
               .
@@ -112,20 +112,20 @@ export default function Register() {
           {error && <p className="text-red-500 text-sm">{error}</p>}
           <button
             type="submit"
-            className="w-full bg-purple-600 text-white py-3 rounded-lg font-bold text-lg transition-transform hover:scale-105 active:scale-95"
+            className="w-full bg-gradient-to-r from-cyan-600 to-cyan-700 text-white py-3 rounded-lg font-bold text-lg transition-transform hover:scale-105 active:scale-95 shadow-lg"
           >
             Register
           </button>
         </form>
-        <p className="mt-4 text-center text-purple-600">
+        <p className="mt-6 text-center text-gray-600">
           Already have an account?{' '}
-          <a href="/login" className="underline hover:text-purple-500">
+          <a href="/login" className="text-cyan-600 font-medium underline hover:text-cyan-700">
             Log in here
           </a>
         </p>
       </div>
       {showToast && (
-        <div className="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg">
+        <div className="fixed bottom-4 right-4 bg-gradient-to-r from-green-500 to-green-600 text-white p-4 rounded-lg shadow-lg">
           Check your email for the confirmation link!
         </div>
       )}

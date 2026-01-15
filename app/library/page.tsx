@@ -38,8 +38,8 @@ const PDFViewer = ({ url }: { url: string }) => {
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500 mx-auto"></div>
-            <p className="mt-4 text-purple-600">Loading PDF...</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500 mx-auto"></div>
+            <p className="mt-4 text-cyan-600">Loading PDF...</p>
           </div>
         </div>
       )}
@@ -173,7 +173,7 @@ export default function Home() {
           <div className="flex flex-col space-y-4 sm:flex-row sm:justify-between sm:items-center">
             <div>
         
-                <h1 className="text-4xl font-bold text-purple-800 ">
+                <h1 className="text-4xl font-bold text-cyan-800 ">
                     Welcome to the Library! 📚
                 </h1>
                 <p className="mt-2 text-lg text-gray-700">
@@ -186,13 +186,13 @@ export default function Home() {
                 <input
                   type="search"
                   placeholder="Search books..."
-                  className="px-4 py-2 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-900"
+                  className="px-4 py-2 border border-cyan-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 text-gray-900 bg-cyan-50"
                   value={searchQuery}
                   onChange={handleSearchInput}
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                 >
                   Search
                 </button>
@@ -202,8 +202,8 @@ export default function Home() {
 
           {loading ? (
             <div className="text-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500 mx-auto"></div>
-              <p className="mt-4 text-purple-600">Loading books...</p>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500 mx-auto"></div>
+              <p className="mt-4 text-cyan-600">Loading books...</p>
             </div>
           ) : error ? (
             <div className="text-center text-red-600 p-4 bg-red-50 rounded-lg">
@@ -237,7 +237,7 @@ export default function Home() {
 
               {/* All Books and Search Results Section */}
               <div className="space-y-4">
-                <h2 className="text-2xl font-semibold text-purple-800">
+                <h2 className="text-2xl font-semibold text-cyan-800">
                   {isSearching ? 'Search Results' : 'All Books'}
                 </h2>
                 {isSearching && searchResults.length === 0 ? (
@@ -249,7 +249,7 @@ export default function Home() {
                         setIsSearching(false);
                         setSearchResults([]);
                       }}
-                      className="mt-4 text-purple-600 hover:text-purple-800"
+                      className="mt-4 text-cyan-600 hover:text-cyan-800"
                     >
                       Clear Search
                     </button>
@@ -259,7 +259,7 @@ export default function Home() {
                     {(isSearching ? searchResults : books).map((book, index) => (
                       <div
                         key={index}
-                        className="bg-purple-50 rounded-lg shadow-sm hover:shadow-md transition-shadow p-4"
+                        className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 p-4 border border-cyan-100"
                       >
                         <div className="flex flex-col h-full">
                           <div className="flex-1">
@@ -273,13 +273,13 @@ export default function Home() {
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                               />
                             </div>
-                            <h3 className="text-lg font-medium text-purple-800 mb-2">
+                            <h3 className="text-lg font-medium text-cyan-800 mb-2">
                               {book.name.replace(/\.[^/.]+$/, '')}
                             </h3>
                           </div>
                           <button
                             onClick={() => setSelectedBook(book)}
-                            className="mt-4 inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                            className="mt-4 inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                           >
                             Read Book
                           </button>
@@ -293,12 +293,12 @@ export default function Home() {
               {/* Only show Recommended Books when not searching */}
               {!isSearching && (
                 <div className="space-y-4">
-                  <h2 className="text-2xl font-semibold text-purple-800">Recommended Books</h2>
+                  <h2 className="text-2xl font-semibold text-cyan-800">Recommended Books</h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                     {recommendedBooks.map((book, index) => (
                       <div
                         key={`recommended-${index}`}
-                        className="bg-purple-100 rounded-lg shadow-sm hover:shadow-md transition-shadow p-4 border-2 border-purple-200"
+                        className="bg-gradient-to-br from-cyan-100 to-blue-100 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 p-4 border-2 border-cyan-300"
                       >
                         <div className="flex flex-col h-full">
                           <div className="flex-1">
@@ -312,13 +312,13 @@ export default function Home() {
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                               />
                             </div>
-                            <h3 className="text-lg font-medium text-purple-800 mb-2">
+                            <h3 className="text-lg font-medium text-cyan-800 mb-2">
                               {book.name.replace(/\.[^/.]+$/, '')}
                             </h3>
                           </div>
                           <button
                             onClick={() => setSelectedBook(book)}
-                            className="mt-4 inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                            className="mt-4 inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                           >
                             Read Book
                           </button>
