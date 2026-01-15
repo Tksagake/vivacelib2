@@ -43,34 +43,10 @@ export default function Home() {
     { value: '15+', label: 'Years of Excellence' }
   ];
 
-  const testimonials = [
-    {
-      name: "Dr. Amina Wanjiku",
-      role: "Music Theory Instructor",
-      institution: "University of Nairobi",
-      content: "Vivace has transformed how we approach music education. The digital resources and AI assistant provide students with unprecedented access to quality learning materials.",
-      image: "/Logo.png"
-    },
-    {
-      name: "Peter Omondi",
-      role: "Professional Musician",
-      institution: "Kenya National Symphony Orchestra",
-      content: "As a professional, I appreciate the depth and quality of resources available. The library collection rivals that of major international conservatories.",
-      image: "/Logo.png"
-    },
-    {
-      name: "Grace Muthoni",
-      role: "ABRSM Grade 8 Student",
-      institution: "Vivace Music School",
-      content: "The video lessons and practice materials helped me achieve distinction in my Grade 8 examination. The AI assistant was invaluable for theory preparation.",
-      image: "/Logo.png"
-    }
-  ];
-
   const programs = [
     { 
-      title: 'ABRSM Preparation',
-      description: 'Comprehensive preparation materials for all ABRSM grade levels',
+      title: 'Trinity Preparation',
+      description: 'Comprehensive preparation materials for all Trinity College London grade levels',
       icon: Award
     },
     { 
@@ -118,7 +94,7 @@ export default function Home() {
             <div className="hidden md:flex items-center gap-8">
               <a href="#features" className="text-[var(--neutral-700)] hover:text-[var(--primary-700)] transition-colors font-medium">Features</a>
               <a href="#programs" className="text-[var(--neutral-700)] hover:text-[var(--primary-700)] transition-colors font-medium">Programs</a>
-              <a href="#testimonials" className="text-[var(--neutral-700)] hover:text-[var(--primary-700)] transition-colors font-medium">Testimonials</a>
+              <a href="#accreditation" className="text-[var(--neutral-700)] hover:text-[var(--primary-700)] transition-colors font-medium">Accreditation</a>
               <a href="#contact" className="text-[var(--neutral-700)] hover:text-[var(--primary-700)] transition-colors font-medium">Contact</a>
             </div>
 
@@ -153,7 +129,7 @@ export default function Home() {
             <div className="px-4 py-6 space-y-4">
               <a href="#features" className="block py-2 text-[var(--neutral-700)] font-medium">Features</a>
               <a href="#programs" className="block py-2 text-[var(--neutral-700)] font-medium">Programs</a>
-              <a href="#testimonials" className="block py-2 text-[var(--neutral-700)] font-medium">Testimonials</a>
+              <a href="#accreditation" className="block py-2 text-[var(--neutral-700)] font-medium">Accreditation</a>
               <a href="#contact" className="block py-2 text-[var(--neutral-700)] font-medium">Contact</a>
               <div className="pt-4 space-y-3 border-t border-[var(--neutral-200)]">
                 <button
@@ -183,7 +159,7 @@ export default function Home() {
             <div className="text-center lg:text-left">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-white/90 text-sm mb-6">
                 <Award size={16} />
-                <span>Established 2009 • Trusted by 10,000+ Students</span>
+                <span>Trinity College London Authorized Center #74255</span>
               </div>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
@@ -192,7 +168,7 @@ export default function Home() {
               </h1>
               
               <p className="text-lg md:text-xl text-white/80 mb-8 max-w-xl mx-auto lg:mx-0">
-                Access Kenya&apos;s premier digital music library. Comprehensive resources for ABRSM preparation, 
+                Access Kenya&apos;s premier digital music library. Comprehensive resources for Trinity College London preparation, 
                 theory mastery, and professional development.
               </p>
               
@@ -286,7 +262,7 @@ export default function Home() {
                 Programs Designed for Excellence
               </h2>
               <p className="text-lg text-[var(--neutral-600)] mb-8">
-                Our curriculum is aligned with international standards including ABRSM, Trinity, and LCME. 
+                Our curriculum is aligned with Trinity College London international standards. 
                 Whether you&apos;re preparing for examinations or pursuing professional development, we have the right program for you.
               </p>
               
@@ -324,12 +300,12 @@ export default function Home() {
                       <Award className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <div className="font-semibold text-[var(--primary-900)]">ABRSM Certification</div>
+                      <div className="font-semibold text-[var(--primary-900)]">Trinity College London</div>
                       <div className="text-sm text-[var(--neutral-500)]">Internationally Recognized</div>
                     </div>
                   </div>
                   <div className="h-2 bg-[var(--neutral-100)] rounded-full overflow-hidden">
-                    <div className="h-full w-4/5 bg-gradient-to-r from-[var(--secondary-500)] to-[var(--primary-500)] rounded-full"></div>
+                    <div className="h-full w-[95%] bg-gradient-to-r from-[var(--secondary-500)] to-[var(--primary-500)] rounded-full"></div>
                   </div>
                   <div className="mt-2 text-sm text-[var(--neutral-600)]">95% Pass Rate</div>
                 </div>
@@ -337,7 +313,7 @@ export default function Home() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-white rounded-lg p-4 text-center shadow">
                     <div className="text-2xl font-bold text-[var(--primary-700)]">8</div>
-                    <div className="text-xs text-[var(--neutral-600)]">ABRSM Grades</div>
+                    <div className="text-xs text-[var(--neutral-600)]">Grade Levels</div>
                   </div>
                   <div className="bg-white rounded-lg p-4 text-center shadow">
                     <div className="text-2xl font-bold text-[var(--secondary-600)]">4</div>
@@ -350,45 +326,60 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 lg:py-28 bg-[var(--primary-50)]">
+      {/* Trinity Accreditation Section */}
+      <section id="accreditation" className="py-20 lg:py-28 bg-[var(--primary-50)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-[var(--primary-900)] mb-4">
-              Trusted by Music Educators & Students
-            </h2>
-            <p className="text-lg text-[var(--neutral-600)] max-w-2xl mx-auto">
-              Hear from our community of learners and professionals across Kenya.
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div 
-                key={index} 
-                className="bg-white rounded-xl p-8 border border-[var(--neutral-200)] shadow-sm hover:shadow-md transition-shadow"
-              >
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-14 h-14 bg-[var(--primary-100)] rounded-full overflow-hidden flex items-center justify-center">
-                    <Image 
-                      src={testimonial.image} 
-                      alt={testimonial.name} 
-                      width={56} 
-                      height={56}
-                      className="object-cover"
-                    />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-[var(--primary-900)]">{testimonial.name}</h4>
-                    <p className="text-sm text-[var(--neutral-600)]">{testimonial.role}</p>
-                    <p className="text-xs text-[var(--accent-600)]">{testimonial.institution}</p>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="flex justify-center">
+              <div className="relative">
+                <div className="absolute -inset-4 bg-gradient-to-r from-[var(--primary-300)] to-[var(--secondary-300)] rounded-2xl blur-xl opacity-30"></div>
+                <div className="relative bg-white rounded-2xl p-8 shadow-lg border border-[var(--neutral-200)]">
+                  <Image 
+                    src="https://res.cloudinary.com/dylmsnibf/image/upload/v1738590835/2ca281d2-ec9a-48da-a4d1-972aa9a73fc3.png" 
+                    alt="Trinity College London Authorized Center" 
+                    width={300} 
+                    height={300}
+                    className="object-contain"
+                  />
+                  <div className="text-center mt-4">
+                    <p className="text-sm font-semibold text-[var(--primary-700)]">Center Number: 74255</p>
                   </div>
                 </div>
-                <blockquote className="text-[var(--neutral-700)] leading-relaxed italic">
-                  &ldquo;{testimonial.content}&rdquo;
-                </blockquote>
               </div>
-            ))}
+            </div>
+            
+            <div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--accent-100)] text-[var(--accent-700)] rounded-full text-sm font-semibold mb-6">
+                <Award size={16} />
+                <span>Authorized Examination Center</span>
+              </div>
+              
+              <h2 className="text-3xl md:text-4xl font-bold text-[var(--primary-900)] mb-6">
+                Trinity College London Partner
+              </h2>
+              
+              <p className="text-lg text-[var(--neutral-700)] leading-relaxed mb-6">
+                Vivace Music School Kenya is proud to be an authorized Trinity College London Examination Center (Center Number 74255). 
+                This prestigious partnership enables our students to pursue internationally recognized music qualifications without leaving Kenya.
+              </p>
+              
+              <p className="text-lg text-[var(--neutral-700)] leading-relaxed mb-8">
+                Trinity College London examinations are respected worldwide by universities, conservatories, and employers, 
+                offering credible validation of musical achievement. Our faculty&apos;s deep familiarity with Trinity syllabi 
+                ensures targeted preparation that maximizes examination success while building genuine musical competency.
+              </p>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white rounded-xl p-4 border border-[var(--neutral-200)]">
+                  <div className="text-2xl font-bold text-[var(--primary-700)]">100+</div>
+                  <div className="text-sm text-[var(--neutral-600)]">Countries Recognize Trinity</div>
+                </div>
+                <div className="bg-white rounded-xl p-4 border border-[var(--neutral-200)]">
+                  <div className="text-2xl font-bold text-[var(--secondary-600)]">Since 1877</div>
+                  <div className="text-sm text-[var(--neutral-600)]">Trinity Heritage</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -438,9 +429,19 @@ export default function Home() {
                   <p className="text-sm text-white/60">Kenya</p>
                 </div>
               </div>
-              <p className="text-white/70 text-sm leading-relaxed">
+              <p className="text-white/70 text-sm leading-relaxed mb-4">
                 Empowering the next generation of musicians through quality education and innovative digital resources.
               </p>
+              <div className="flex items-center gap-2">
+                <Image 
+                  src="https://res.cloudinary.com/dylmsnibf/image/upload/v1738590835/2ca281d2-ec9a-48da-a4d1-972aa9a73fc3.png" 
+                  alt="Trinity College London" 
+                  width={40} 
+                  height={40}
+                  className="object-contain"
+                />
+                <span className="text-xs text-white/60">Trinity Center #74255</span>
+              </div>
             </div>
             
             <div>

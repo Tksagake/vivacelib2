@@ -57,7 +57,7 @@ const PDFViewer = ({ url }: { url: string }) => {
 // Categories for filtering
 const CATEGORIES = [
   'All Resources',
-  'ABRSM',
+  'Trinity',
   'Theory',
   'Workbook',
   'Practice',
@@ -113,7 +113,7 @@ export default function Library() {
         // Determine category based on filename
         let category = 'General';
         const nameLower = file.name.toLowerCase();
-        if (nameLower.includes('abrsm')) category = 'ABRSM';
+        if (nameLower.includes('trinity')) category = 'Trinity';
         else if (nameLower.includes('theory')) category = 'Theory';
         else if (nameLower.includes('workbook')) category = 'Workbook';
         else if (nameLower.includes('scale')) category = 'Scales';
@@ -205,13 +205,59 @@ export default function Library() {
     </div>
   );
 
+  const BookListItem = ({ book }: { book: Book }) => (
+    <div className="group bg-white rounded-xl border border-[var(--neutral-200)] p-4 hover:shadow-lg transition-all duration-300 flex items-center gap-4">
+      <div className="w-16 h-20 bg-[var(--neutral-100)] rounded-lg overflow-hidden shrink-0">
+        <Image
+          src={book.thumbnail || BOOK_COVERS[0]}
+          alt={book.name}
+          width={64}
+          height={80}
+          className="object-contain w-full h-full"
+        />
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="mb-1">
+          <span className="inline-block px-2 py-0.5 bg-[var(--primary-100)] text-[var(--primary-700)] text-xs font-medium rounded">
+            {book.category || 'General'}
+          </span>
+        </div>
+        <h3 className="font-semibold text-[var(--primary-900)] truncate group-hover:text-[var(--primary-700)] transition-colors">
+          {getCleanName(book.name)}
+        </h3>
+      </div>
+      <div className="flex items-center gap-2 shrink-0">
+        <button
+          onClick={() => setSelectedBook(book)}
+          className="flex items-center gap-2 px-4 py-2 bg-[var(--primary-100)] text-[var(--primary-700)] text-sm font-medium rounded-lg hover:bg-[var(--primary-200)] transition-colors"
+        >
+          <Eye size={16} />
+          <span>Read</span>
+        </button>
+        <a
+          href={book.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="p-2 bg-[var(--neutral-100)] text-[var(--neutral-700)] rounded-lg hover:bg-[var(--neutral-200)] transition-colors"
+        >
+          <Download size={16} />
+        </a>
+      </div>
+    </div>
+  );
+
   return (
     <main className="min-h-screen bg-[var(--background)]">
       <Navbar />
 
       {/* PDF Viewer Modal */}
       {selectedBook && (
-        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+        <div 
+          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setSelectedBook(null);
+          }}
+        >
           <div className="bg-white rounded-2xl w-full max-w-6xl h-[90vh] flex flex-col overflow-hidden">
             <div className="flex items-center justify-between p-4 border-b border-[var(--neutral-200)]">
               <div>
@@ -231,6 +277,7 @@ export default function Library() {
                 <button
                   onClick={() => setSelectedBook(null)}
                   className="p-2 hover:bg-[var(--neutral-100)] rounded-lg transition-colors"
+                  aria-label="Close"
                 >
                   <X size={24} className="text-[var(--neutral-600)]" />
                 </button>
@@ -256,7 +303,7 @@ export default function Library() {
               </div>
             </div>
             <p className="text-lg text-white/80 mb-8">
-              Access our comprehensive collection of music theory books, ABRSM preparation materials, 
+              Access our comprehensive collection of music theory books, Trinity College London preparation materials, 
               and educational resources.
             </p>
 
@@ -271,7 +318,7 @@ export default function Library() {
                   value={searchQuery}
                   onChange={handleSearchInput}
                   className="w-full pl-12 pr-4 py-4 bg-white text-[var(--neutral-900)] rounded-xl placeholder-[var(--neutral-400)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-500)]"
-                  placeholder="Search for books, theory materials, ABRSM resources..."
+                  placeholder="Search for books, theory materials, Trinity resources..."
                 />
               </div>
               <button
@@ -380,6 +427,23 @@ export default function Library() {
           </div>
         ) : (
           <div className="space-y-12">
+            {/* Recommended Books - Show FIRST when not filtering */}
+            {!isSearching && selectedCategory === 'All Resources' && recommendedBooks.length > 0 && (
+              <section>
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h2 className="text-2xl font-bold text-[var(--primary-900)]">Recommended for You</h2>
+                    <p className="text-[var(--neutral-500)]">Curated resources to enhance your learning</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                  {recommendedBooks.map((book, index) => (
+                    <BookCard key={`recommended-${index}`} book={book} />
+                  ))}
+                </div>
+              </section>
+            )}
+
             {/* Search/Filter Results or All Books */}
             <section>
               <div className="flex items-center justify-between mb-6">
@@ -408,35 +472,20 @@ export default function Library() {
                     Clear all filters
                   </button>
                 </div>
-              ) : (
-                <div className={`grid gap-6 ${
-                  viewMode === 'grid' 
-                    ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5' 
-                    : 'grid-cols-1'
-                }`}>
+              ) : viewMode === 'grid' ? (
+                <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                   {filteredBooks.map((book, index) => (
                     <BookCard key={index} book={book} />
                   ))}
                 </div>
-              )}
-            </section>
-
-            {/* Recommended Books - Only show when not filtering */}
-            {!isSearching && selectedCategory === 'All Resources' && recommendedBooks.length > 0 && (
-              <section className="pt-8 border-t border-[var(--neutral-200)]">
-                <div className="flex items-center justify-between mb-6">
-                  <div>
-                    <h2 className="text-2xl font-bold text-[var(--primary-900)]">Recommended for You</h2>
-                    <p className="text-[var(--neutral-500)]">Curated resources to enhance your learning</p>
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                  {recommendedBooks.map((book, index) => (
-                    <BookCard key={`recommended-${index}`} book={book} />
+              ) : (
+                <div className="space-y-3">
+                  {filteredBooks.map((book, index) => (
+                    <BookListItem key={index} book={book} />
                   ))}
                 </div>
-              </section>
-            )}
+              )}
+            </section>
           </div>
         )}
       </div>

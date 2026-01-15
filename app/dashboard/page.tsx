@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Navbar from '../components/Navbar';
-import { BookOpen, MessageSquare, Video, Music2, ArrowRight, TrendingUp, Clock, Award } from 'lucide-react';
+import { BookOpen, MessageSquare, Video, Music2, ArrowRight, TrendingUp, Clock } from 'lucide-react';
 
 // Initialize Supabase client
 const supabase = createClientComponentClient();
@@ -37,7 +37,7 @@ export default function Dashboard() {
   const quickActions = [
     {
       title: 'Digital Library',
-      description: 'Access 500+ music books, theory guides, and ABRSM preparation materials',
+      description: 'Access 500+ music books, theory guides, and Trinity College London preparation materials',
       icon: BookOpen,
       href: '/library',
       color: 'bg-[var(--primary-100)]',
@@ -55,7 +55,7 @@ export default function Dashboard() {
     },
     {
       title: 'Video Lessons',
-      description: 'Watch expert tutorials and masterclasses for all skill levels',
+      description: 'Watch expert tutorials and masterclasses aligned with Trinity syllabi',
       icon: Video,
       href: '/youtube',
       color: 'bg-[var(--accent-100)]',
@@ -74,7 +74,7 @@ export default function Dashboard() {
   ];
 
   const recentActivity = [
-    { type: 'book', title: 'ABRSM Grade 5 Theory', time: '2 hours ago' },
+    { type: 'book', title: 'Trinity Grade 5 Theory', time: '2 hours ago' },
     { type: 'chat', title: 'Circle of Fifths discussion', time: 'Yesterday' },
     { type: 'video', title: 'Piano Scales Tutorial', time: '3 days ago' },
   ];
@@ -82,7 +82,7 @@ export default function Dashboard() {
   const learningTips = [
     'Practice sight-reading for 15 minutes daily to improve fluency.',
     'Use the AI assistant to clarify complex theory concepts.',
-    'Review your ABRSM materials weekly for better retention.',
+    'Review your Trinity materials weekly for better retention.',
   ];
 
   const firstName = user?.user_metadata?.full_name?.split(' ')[0] || 'Student';
@@ -105,13 +105,9 @@ export default function Dashboard() {
               </p>
             </div>
             <div className="flex items-center gap-4">
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center min-w-[120px]">
-                <div className="text-2xl font-bold text-[var(--accent-400)]">15</div>
-                <div className="text-sm text-white/70">Day Streak</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center min-w-[120px]">
-                <div className="text-2xl font-bold text-[var(--accent-400)]">24</div>
-                <div className="text-sm text-white/70">Books Read</div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center min-w-[140px]">
+                <div className="text-sm font-medium text-white/70 mb-1">Trinity Center</div>
+                <div className="text-lg font-bold text-[var(--accent-400)]">#74255</div>
               </div>
             </div>
           </div>
@@ -156,43 +152,36 @@ export default function Dashboard() {
               </div>
             </section>
 
-            {/* Learning Progress */}
+            {/* Trinity Resources Section */}
             <section>
-              <h2 className="text-xl font-bold text-[var(--primary-900)] mb-6">Your Progress</h2>
+              <h2 className="text-xl font-bold text-[var(--primary-900)] mb-6">Trinity College London Resources</h2>
               <div className="bg-white rounded-xl border border-[var(--neutral-200)] p-6">
-                <div className="grid sm:grid-cols-3 gap-6">
-                  <div className="text-center p-4 bg-[var(--primary-50)] rounded-xl">
+                <p className="text-[var(--neutral-700)] mb-6">
+                  As an authorized Trinity College London Examination Center, we provide comprehensive resources 
+                  aligned with Trinity syllabi for all grade levels and diploma examinations.
+                </p>
+                <div className="grid sm:grid-cols-3 gap-4">
+                  <a href="/library" className="text-center p-4 bg-[var(--primary-50)] rounded-xl hover:bg-[var(--primary-100)] transition-colors">
                     <div className="w-12 h-12 bg-[var(--primary-100)] rounded-full flex items-center justify-center mx-auto mb-3">
                       <BookOpen size={24} className="text-[var(--primary-600)]" />
                     </div>
-                    <div className="text-2xl font-bold text-[var(--primary-900)]">24</div>
-                    <div className="text-sm text-[var(--neutral-600)]">Books Accessed</div>
-                  </div>
-                  <div className="text-center p-4 bg-[var(--secondary-50)] rounded-xl">
+                    <div className="font-semibold text-[var(--primary-900)]">Theory Books</div>
+                    <div className="text-sm text-[var(--neutral-600)]">Grades 1-8</div>
+                  </a>
+                  <a href="/youtube" className="text-center p-4 bg-[var(--secondary-50)] rounded-xl hover:bg-[var(--secondary-100)] transition-colors">
                     <div className="w-12 h-12 bg-[var(--secondary-100)] rounded-full flex items-center justify-center mx-auto mb-3">
-                      <MessageSquare size={24} className="text-[var(--secondary-600)]" />
+                      <Video size={24} className="text-[var(--secondary-600)]" />
                     </div>
-                    <div className="text-2xl font-bold text-[var(--primary-900)]">156</div>
-                    <div className="text-sm text-[var(--neutral-600)]">AI Conversations</div>
-                  </div>
-                  <div className="text-center p-4 bg-[var(--accent-50)] rounded-xl">
+                    <div className="font-semibold text-[var(--primary-900)]">Video Tutorials</div>
+                    <div className="text-sm text-[var(--neutral-600)]">Performance & Theory</div>
+                  </a>
+                  <a href="/sheets" className="text-center p-4 bg-[var(--accent-50)] rounded-xl hover:bg-[var(--accent-100)] transition-colors">
                     <div className="w-12 h-12 bg-[var(--accent-100)] rounded-full flex items-center justify-center mx-auto mb-3">
-                      <Video size={24} className="text-[var(--accent-600)]" />
+                      <Music2 size={24} className="text-[var(--accent-600)]" />
                     </div>
-                    <div className="text-2xl font-bold text-[var(--primary-900)]">42</div>
-                    <div className="text-sm text-[var(--neutral-600)]">Videos Watched</div>
-                  </div>
-                </div>
-
-                <div className="mt-6 pt-6 border-t border-[var(--neutral-200)]">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-[var(--neutral-700)]">Weekly Learning Goal</span>
-                    <span className="text-sm font-semibold text-[var(--primary-600)]">75%</span>
-                  </div>
-                  <div className="h-2 bg-[var(--neutral-100)] rounded-full overflow-hidden">
-                    <div className="h-full w-3/4 bg-gradient-to-r from-[var(--primary-500)] to-[var(--secondary-500)] rounded-full"></div>
-                  </div>
-                  <p className="text-xs text-[var(--neutral-500)] mt-2">5 more hours to reach your goal!</p>
+                    <div className="font-semibold text-[var(--primary-900)]">Score Editor</div>
+                    <div className="text-sm text-[var(--neutral-600)]">Create & Export</div>
+                  </a>
                 </div>
               </div>
             </section>
@@ -230,7 +219,7 @@ export default function Dashboard() {
             <section className="bg-gradient-to-br from-[var(--accent-50)] to-[var(--accent-100)] rounded-xl p-6 border border-[var(--accent-200)]">
               <div className="flex items-center gap-2 mb-4">
                 <TrendingUp size={18} className="text-[var(--accent-600)]" />
-                <h3 className="font-semibold text-[var(--primary-900)]">Learning Tips</h3>
+                <h3 className="font-semibold text-[var(--primary-900)]">Study Tips</h3>
               </div>
               <div className="space-y-3">
                 {learningTips.map((tip, index) => (
@@ -241,21 +230,6 @@ export default function Dashboard() {
                     <p className="text-sm text-[var(--neutral-700)]">{tip}</p>
                   </div>
                 ))}
-              </div>
-            </section>
-
-            {/* Achievement Card */}
-            <section className="bg-white rounded-xl border border-[var(--neutral-200)] p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <Award size={18} className="text-[var(--accent-500)]" />
-                <h3 className="font-semibold text-[var(--primary-900)]">Latest Achievement</h3>
-              </div>
-              <div className="text-center py-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-[var(--accent-400)] to-[var(--accent-600)] rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Award size={32} className="text-white" />
-                </div>
-                <h4 className="font-semibold text-[var(--primary-900)]">Bookworm</h4>
-                <p className="text-sm text-[var(--neutral-600)]">Read 20+ books this month</p>
               </div>
             </section>
           </div>

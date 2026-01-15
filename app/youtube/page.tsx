@@ -53,7 +53,7 @@ export default function YouTubePage() {
 
   const fetchRecommendedVideos = async () => {
     const response = await fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=6&q=music%20lessons%20ABRSM&key=${API_KEY}`
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=6&q=Trinity%20College%20London%20music%20exam%20preparation&key=${API_KEY}`
     );
 
     const data = await response.json();
@@ -70,9 +70,32 @@ export default function YouTubePage() {
     }
   };
 
+  // Close modal on Escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedVideo(null);
+      }
+    };
+    
+    if (selectedVideo) {
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden';
+    }
+    
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedVideo]);
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  };
+
+  const closeModal = () => {
+    setSelectedVideo(null);
   };
 
   const VideoCard = ({ video, featured = false }: { video: YouTubeVideo; featured?: boolean }) => (
@@ -118,8 +141,22 @@ export default function YouTubePage() {
 
       {/* Video Player Modal */}
       {selectedVideo && (
-        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl w-full max-w-5xl overflow-hidden">
+        <div 
+          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) closeModal();
+          }}
+        >
+          <div className="bg-white rounded-2xl w-full max-w-5xl overflow-hidden relative">
+            {/* Close button - prominent and always visible */}
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 z-10 p-2 bg-white rounded-full shadow-lg hover:bg-[var(--neutral-100)] transition-colors"
+              aria-label="Close video"
+            >
+              <X size={24} className="text-[var(--neutral-700)]" />
+            </button>
+            
             <div className="relative aspect-video bg-black">
               <iframe
                 src={`https://www.youtube.com/embed/${selectedVideo.id.videoId}`}
@@ -147,7 +184,7 @@ export default function YouTubePage() {
                   </div>
                 </div>
                 <button
-                  onClick={() => setSelectedVideo(null)}
+                  onClick={closeModal}
                   className="p-2 hover:bg-[var(--neutral-100)] rounded-lg transition-colors"
                 >
                   <X size={24} className="text-[var(--neutral-600)]" />
@@ -169,7 +206,7 @@ export default function YouTubePage() {
           <div className="max-w-3xl">
             <h1 className="text-3xl md:text-4xl font-bold mb-4">Video Lessons</h1>
             <p className="text-lg text-white/80 mb-8">
-              Explore our curated collection of music tutorials and masterclasses from expert instructors.
+              Explore our curated collection of music tutorials aligned with Trinity College London syllabi and exam preparation.
             </p>
 
             {/* Search Bar */}
@@ -184,7 +221,7 @@ export default function YouTubePage() {
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyPress}
                   className="w-full pl-12 pr-4 py-4 bg-white text-[var(--neutral-900)] rounded-xl placeholder-[var(--neutral-400)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-500)]"
-                  placeholder="Search for piano lessons, music theory, ABRSM preparation..."
+                  placeholder="Search for piano lessons, music theory, Trinity preparation..."
                 />
               </div>
               <button
@@ -256,7 +293,7 @@ export default function YouTubePage() {
                 <div className="flex items-center justify-between mb-6">
                   <div>
                     <h2 className="text-2xl font-bold text-[var(--primary-900)]">Recommended for You</h2>
-                    <p className="text-[var(--neutral-500)]">Curated lessons to enhance your musical journey</p>
+                    <p className="text-[var(--neutral-500)]">Trinity College London aligned lessons</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -276,7 +313,7 @@ export default function YouTubePage() {
                   { name: 'Guitar', emoji: '🎸' },
                   { name: 'Violin', emoji: '🎻' },
                   { name: 'Music Theory', emoji: '📚' },
-                  { name: 'ABRSM Prep', emoji: '🎓' },
+                  { name: 'Trinity Prep', emoji: '🎓' },
                   { name: 'Singing', emoji: '🎤' },
                 ].map((category) => (
                   <button
