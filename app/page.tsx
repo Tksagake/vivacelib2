@@ -53,13 +53,7 @@ export default function Home() {
             onClick={() => router.push("/login")}
             className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 hover:text-purple-900 transition-colors"
           >
-            Login
-          </button>
-          <button
-            onClick={() => router.push("/register")}
-            className="bg-purple-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 hover:text-purple-900 transition-colors"
-          >
-            Register
+            Student Login
           </button>
         </div>
         <div className="md:hidden flex items-center">
@@ -89,13 +83,7 @@ export default function Home() {
             onClick={() => router.push("/login")}
             className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 hover:text-purple-900 transition-colors"
           >
-            Login
-          </button>
-          <button
-            onClick={() => router.push("/register")}
-            className="bg-purple-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 hover:text-purple-900 transition-colors"
-          >
-            Register
+            Student Login
           </button>
         </div>
       )}
@@ -110,16 +98,26 @@ export default function Home() {
           />
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">Welcome to VivaceKenya Library</h1>
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">Vivace Music Kenya Resource Center</h1>
           <p className="text-xl mb-8 max-w-3xl mx-auto">
-            Your ultimate resource for music learning with PDF books, YouTube classes, and AI chatbot support.
+            Your resource for music learning with PDF books, YouTube classes, and AI chatbot support.
           </p>
-          <button
-            onClick={() => router.push("/register")}
-            className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors shadow-lg"
-          >
-            Join Us Today
-          </button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={() => router.push("/login")}
+              className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors shadow-lg"
+            >
+              Student Login
+            </button>
+            <a
+              href="https://www.vivaceke.co.ke/services"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors shadow-lg"
+            >
+              View All Programs
+            </a>
+          </div>
         </div>
       </header>
 
@@ -163,13 +161,13 @@ export default function Home() {
       {/* CTA Section */}
       <section className="bg-purple-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-4">Ready to Enhance Your Music Skills?</h2>
-          <p className="text-xl mb-8">Join Vivace Music School Kenya Library and take your music learning to the next level.</p>
+          <h2 className="text-4xl font-bold mb-4">Access for Vivace Students</h2>
+          <p className="text-xl mb-8">Vivace Music School Kenya Resource Center is available to enrolled students.</p>
           <button
-            onClick={() => router.push("/register")}
+            onClick={() => router.push("/login")}
             className="inline-block bg-purple-600 text-white px-8 py-3 rounded-md font-semibold hover:bg-purple-700 transition shadow-lg"
           >
-            Get Started
+            Vivace Student Portal
           </button>
         </div>
       </section>
