@@ -398,7 +398,7 @@ export default function Library() {
                   <Search size={40} className="mx-auto text-[var(--neutral-300)] mb-4" />
                   <h3 className="text-lg font-semibold text-[var(--neutral-900)] mb-2">No results found</h3>
                   <p className="text-[var(--neutral-600)] mb-4">
-                    No books found matching &quot;{searchQuery}&quot;
+                    No books found matching "{searchQuery}"
                     {selectedCategory !== 'All Resources' && ` in ${selectedCategory}`}
                   </p>
                   <button

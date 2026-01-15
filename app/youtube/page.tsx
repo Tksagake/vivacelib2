@@ -122,9 +122,9 @@ export default function YouTubePage() {
           <div className="bg-white rounded-2xl w-full max-w-5xl overflow-hidden">
             <div className="relative aspect-video bg-black">
               <iframe
-                src={`https://www.youtube.com/embed/${selectedVideo.id.videoId}?autoplay=1`}
+                src={`https://www.youtube.com/embed/${selectedVideo.id.videoId}`}
                 className="w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 title={selectedVideo.snippet.title}
               />
