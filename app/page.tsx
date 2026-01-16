@@ -37,10 +37,10 @@ export default function Home() {
   ];
 
   const stats = [
-    { value: '10,000+', label: 'Students Enrolled' },
     { value: '500+', label: 'Learning Resources' },
     { value: '50+', label: 'Expert Instructors' },
-    { value: '15+', label: 'Years of Excellence' }
+    { value: 'Since 2022', label: 'Established' },
+    { value: '95%', label: 'Trinity Pass Rate' }
   ];
 
   const programs = [
@@ -106,10 +106,10 @@ export default function Home() {
                 Sign In
               </button>
               <button
-                onClick={() => router.push("/register")}
+                onClick={() => router.push("/login")}
                 className="px-5 py-2.5 bg-[var(--primary-700)] text-white font-medium rounded-md hover:bg-[var(--primary-800)] transition-colors"
               >
-                Get Started
+                Student Login
               </button>
             </div>
 
@@ -134,15 +134,9 @@ export default function Home() {
               <div className="pt-4 space-y-3 border-t border-[var(--neutral-200)]">
                 <button
                   onClick={() => router.push("/login")}
-                  className="w-full py-3 text-[var(--primary-700)] font-medium border border-[var(--primary-700)] rounded-md hover:bg-[var(--primary-50)] transition-colors"
-                >
-                  Sign In
-                </button>
-                <button
-                  onClick={() => router.push("/register")}
                   className="w-full py-3 bg-[var(--primary-700)] text-white font-medium rounded-md hover:bg-[var(--primary-800)] transition-colors"
                 >
-                  Get Started
+                  Vivace Student Portal
                 </button>
               </div>
             </div>
@@ -163,8 +157,7 @@ export default function Home() {
               </div>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-                Your Gateway to
-                <span className="block text-[var(--accent-400)]">Music Excellence</span>
+                Vivace Music Kenya Resource Center
               </h1>
               
               <p className="text-lg md:text-xl text-white/80 mb-8 max-w-xl mx-auto lg:mx-0">
@@ -174,17 +167,11 @@ export default function Home() {
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <button
-                  onClick={() => router.push("/register")}
+                  onClick={() => router.push("/login")}
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-[var(--primary-800)] font-semibold rounded-lg hover:bg-[var(--accent-100)] transition-colors shadow-lg"
                 >
-                  Start Learning Today
+                  Access for Vivace Students
                   <ChevronRight size={20} />
-                </button>
-                <button
-                  onClick={() => router.push("/login")}
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 transition-colors"
-                >
-                  Explore Library
                 </button>
               </div>
             </div>
@@ -226,7 +213,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-[var(--primary-900)] mb-4">
-              Comprehensive Learning Platform
+              Our Resources
             </h2>
             <p className="text-lg text-[var(--neutral-600)] max-w-2xl mx-auto">
               Everything you need to excel in your musical journey, from beginner to professional level.
@@ -283,13 +270,15 @@ export default function Home() {
                 ))}
               </div>
               
-              <button 
-                onClick={() => router.push("/register")}
+              <a 
+                href="https://www.vivaceke.co.ke/services"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="mt-8 inline-flex items-center gap-2 px-6 py-3 bg-[var(--primary-700)] text-white font-semibold rounded-lg hover:bg-[var(--primary-800)] transition-colors"
               >
                 View All Programs
                 <ChevronRight size={20} />
-              </button>
+              </a>
             </div>
             
             <div className="relative">
@@ -388,24 +377,18 @@ export default function Home() {
       <section className="py-20 lg:py-28 bg-gradient-to-r from-[var(--primary-800)] to-[var(--primary-900)]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Begin Your Musical Journey Today
+            Access the Vivace Student Portal
           </h2>
           <p className="text-xl text-white/80 mb-10 max-w-2xl mx-auto">
-            Join thousands of students who have transformed their musical abilities through our comprehensive learning platform.
+            Vivace Music Kenya Resource Center is exclusively available for Vivace students.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
-              onClick={() => router.push("/register")}
+              onClick={() => router.push("/login")}
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-[var(--primary-800)] font-semibold rounded-lg hover:bg-[var(--accent-100)] transition-colors shadow-lg"
             >
-              Create Free Account
+              Student Login
               <ChevronRight size={20} />
-            </button>
-            <button
-              onClick={() => router.push("/login")}
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 transition-colors"
-            >
-              Sign In
             </button>
           </div>
         </div>

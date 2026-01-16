@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "VivaceKenya Library 2.0",
-  description: "Kenya's Premier Digital Music Library - Access comprehensive music education resources, ABRSM preparation materials, and AI-powered learning assistance.",
+  title: "Vivace Music Kenya Resource Center",
+  description: "Kenya's Premier Digital Music Library - Access comprehensive music education resources, Trinity College London preparation materials, and AI-powered learning assistance.",
 };
 
 export default function RootLayout({
@@ -18,7 +18,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#1e3a5f" />
         <meta name="description" content="Vivace Music School Kenya - Digital Library for Music Education" />
         <meta name="author" content="Vivace Music School Kenya" />
-        <meta name="keywords" content="Vivace, Music, School, Kenya, Library, ABRSM, Music Theory, Music Education" />
+        <meta name="keywords" content="Vivace, Music, School, Kenya, Library, Trinity College London, Music Theory, Music Education" />
         <meta property="og:title" content="VivaceKenya Library 2.0" />
         <meta property="og:description" content="Kenya's Premier Digital Music Library" />
         <meta property="og:image" content="/Logo.png" />

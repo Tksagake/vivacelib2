@@ -195,7 +195,7 @@ export default function ChatPage() {
                   Vivace AI Assistant
                 </h2>
                 <p className="text-[var(--neutral-600)] max-w-md mb-8">
-                  Ask me anything about music theory, ABRSM preparation, or get help with your musical journey.
+                  Ask me anything about music theory, Trinity College London preparation, or get help with your musical journey.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-lg w-full">
                   {[
