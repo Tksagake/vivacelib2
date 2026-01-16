@@ -21,14 +21,14 @@ const Navbar: React.FC = () => {
         <div className="flex items-center space-x-3">
           <Image
             src="/Logo.png"
-            alt="Vivace Music School Kenya Logo"
+            alt="Vivace Logo"
             width={120}
             height={48}
             className="object-contain"
             priority
           />
           <h2 className="text-lg text-purple-700 font-medium hidden sm:block">
-            Vivace Music School Kenya
+            Vivace Music Kenya Resource Center
           </h2>
         </div>
         </a>z

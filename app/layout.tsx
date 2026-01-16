@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "VivaceKenya Library 2.0",
-  description: "Powered by DiversiWorks Times Group",
+  title: "Vivace Music Kenya Resource Center",
+  description: "Created with love by the Vivace Team. Music, School, Kenya, Library, VivaceKenya, Resources. ",
 };
 
 export default function RootLayout({
@@ -27,17 +27,17 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/Logo.png" />
         <meta name="theme-color" content="#6b46c1" />
-        <meta name="description" content="Vivace Music School Kenya Library" />
+        <meta name="description" content="Vivace Music Kenya Resource Center" />
         <meta name="author" content="Vivace Team" />
         <meta name="keywords" content="Vivace, Music, School, Kenya, Library, VivaceKenya" />
-        <meta property="og:title" content="VivaceKenya Library 2.0" />
+        <meta property="og:title" content="Vivace Music Kenya Resource Center" />
         <meta property="og:description" content="Created with love by the Vivace Team" />
         <meta property="og:image" content="/Logo.png" />
         <meta property="og:url" content="https://library.vivacekenya.co.ke" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="VivaceKenya" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="VivaceKenya Library 2.0" />
+        <meta name="twitter:title" content="Vivace Music Kenya Resource Center" />
         <meta name="twitter:description" content="Created with love by the Vivace Team" />
         <meta name="twitter:image" content="/Logo.png" />
         <meta name="twitter:site" content="@VivaceKenya" />
