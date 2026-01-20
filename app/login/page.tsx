@@ -199,7 +199,7 @@ export default function Login() {
                       <strong>Access on mobile:</strong> Download the Vivace Student Portal App
                     </p>
                     <a 
-                      href="https://ksvlqxjnhvesydokmdfw.supabase.co/storage/v1/object/public/app-releases/vivace.apk"
+                      href="https://ksvlqxjnhvesydokmdfw.supabase.co/storage/v1/object/public/app-releases/vivace2.apk"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-sm font-semibold text-[var(--secondary-700)] hover:text-[var(--secondary-800)] hover:underline transition-colors"

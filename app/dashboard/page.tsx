@@ -131,7 +131,7 @@ export default function Dashboard() {
                   Access your academic records, grades, notices, and school communications on the go with the official Vivace Student Portal App for Android.
                 </p>
                 <a
-                  href="https://ksvlqxjnhvesydokmdfw.supabase.co/storage/v1/object/public/app-releases/vivace.apk"
+                  href="https://ksvlqxjnhvesydokmdfw.supabase.co/storage/v1/object/public/app-releases/vivace2.apk"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--secondary-600)] text-white font-semibold rounded-lg hover:bg-[var(--secondary-700)] transition-all shadow-md hover:shadow-lg"
