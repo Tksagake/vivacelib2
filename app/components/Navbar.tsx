@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { BookOpen, MessageCircle, Video, Music2, LogOut, Menu, X } from 'lucide-react';
+import { BookOpen, MessageCircle, Video, Music2, LogOut, Menu, X, Smartphone } from 'lucide-react';
 import { useState } from 'react';
 
 const supabase = createClientComponentClient();
@@ -22,6 +22,8 @@ const Navbar: React.FC = () => {
     { href: '/youtube', icon: Video, label: 'Video Lessons' },
     { href: '/sheets', icon: Music2, label: 'Score Editor' },
   ];
+
+  const APK_DOWNLOAD_URL = 'https://ksvlqxjnhvesydokmdfw.supabase.co/storage/v1/object/public/app-releases/vivace.apk';
 
   return (
     <nav className="bg-white border-b border-[var(--neutral-200)] sticky top-0 z-50">
@@ -60,7 +62,17 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Desktop Logout */}
-          <div className="hidden md:flex items-center">
+          <div className="hidden md:flex items-center gap-1">
+            <a
+              href={APK_DOWNLOAD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-[var(--secondary-600)] hover:text-[var(--secondary-700)] hover:bg-[var(--secondary-50)] rounded-lg transition-colors"
+              aria-label="Download Student Portal App"
+            >
+              <Smartphone size={18} />
+              <span className="hidden lg:inline">Get App</span>
+            </a>
             <button
               onClick={handleLogout}
               className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-[var(--error)] hover:bg-red-50 rounded-lg transition-colors"
@@ -96,7 +108,16 @@ const Navbar: React.FC = () => {
                 <span>{link.label}</span>
               </a>
             ))}
-            <div className="pt-4 mt-4 border-t border-[var(--neutral-200)]">
+            <div className="pt-4 mt-4 border-t border-[var(--neutral-200)] space-y-1">
+              <a
+                href={APK_DOWNLOAD_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-[var(--secondary-600)] hover:text-[var(--secondary-700)] hover:bg-[var(--secondary-50)] rounded-lg transition-colors"
+              >
+                <Smartphone size={20} />
+                <span>Download Student Portal App</span>
+              </a>
               <button
                 onClick={handleLogout}
                 className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-[var(--error)] hover:bg-red-50 rounded-lg transition-colors"
