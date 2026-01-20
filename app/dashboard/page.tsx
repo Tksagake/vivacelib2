@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Navbar from '../components/Navbar';
-import { BookOpen, MessageSquare, Video, Music2, ArrowRight, TrendingUp, Clock, Smartphone, Download } from 'lucide-react';
+import { BookOpen, MessageSquare, Video, Music2, ArrowRight, TrendingUp, Clock } from 'lucide-react';
 
 // Initialize Supabase client
 const supabase = createClientComponentClient();
@@ -116,34 +116,6 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Student Portal App Banner */}
-        <div className="mb-8">
-          <div className="bg-gradient-to-r from-[var(--secondary-50)] to-[var(--accent-50)] rounded-xl border border-[var(--secondary-200)] p-6 md:p-8">
-            <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-[var(--secondary-600)] to-[var(--secondary-700)] rounded-2xl flex items-center justify-center shrink-0 shadow-lg">
-                <Smartphone className="w-8 h-8 text-white" />
-              </div>
-              <div className="flex-1">
-                <h3 className="text-xl font-bold text-[var(--primary-900)] mb-2">
-                  Take Vivace With You
-                </h3>
-                <p className="text-[var(--neutral-700)] mb-4">
-                  Access your academic records, grades, notices, and school communications on the go with the official Vivace Student Portal App for Android.
-                </p>
-                <a
-                  href="https://ksvlqxjnhvesydokmdfw.supabase.co/storage/v1/object/public/app-releases/vivace.apk"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--secondary-600)] text-white font-semibold rounded-lg hover:bg-[var(--secondary-700)] transition-all shadow-md hover:shadow-lg"
-                >
-                  <Download size={18} />
-                  <span>Download Android App</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Quick Actions - Main Column */}
           <div className="lg:col-span-2 space-y-8">

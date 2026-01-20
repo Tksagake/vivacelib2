@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BookOpen, Video, MessageSquare, Music2, Award, GraduationCap, Library, ChevronRight, Menu, X, Mail, Phone, MapPin } from 'lucide-react';
 import Image from 'next/image';
-import StudentPortalAppSection from './components/StudentPortalAppSection';
 
 export default function Home() {
   const router = useRouter();
@@ -72,48 +71,6 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--background)]">
-      {/* Navigation */}
-      <nav className="bg-white border-b border-[var(--neutral-200)] sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            <div className="flex items-center gap-4">
-              <Image 
-                src="/Logo.png" 
-                alt="Vivace Music School Kenya" 
-                width={80} 
-                height={80}
-                className="object-contain"
-                priority
-              />
-              <div className="hidden sm:block">
-                <h1 className="text-lg font-semibold text-[var(--primary-900)]">Vivace Music School</h1>
-                <p className="text-sm text-[var(--neutral-500)]">Kenya</p>
-              </div>
-            </div>
-            
-            <div className="hidden md:flex items-center gap-8">
-              <a href="#features" className="text-[var(--neutral-700)] hover:text-[var(--primary-700)] transition-colors font-medium">Features</a>
-              <a href="#programs" className="text-[var(--neutral-700)] hover:text-[var(--primary-700)] transition-colors font-medium">Programs</a>
-              <a href="#accreditation" className="text-[var(--neutral-700)] hover:text-[var(--primary-700)] transition-colors font-medium">Accreditation</a>
-              <a href="#app" className="text-[var(--neutral-700)] hover:text-[var(--primary-700)] transition-colors font-medium">Mobile App</a>
-              <a href="#contact" className="text-[var(--neutral-700)] hover:text-[var(--primary-700)] transition-colors font-medium">Contact</a>
-            </div>
-
-            <div className="hidden md:flex items-center gap-4">
-              <button
-                onClick={() => router.push("/login")}
-                className="px-5 py-2.5 text-[var(--primary-700)] font-medium hover:bg-[var(--primary-50)] rounded-md transition-colors"
-              >
-                Sign In
-              </button>
-              <button
-                onClick={() => router.push("/login")}
-                className="px-5 py-2.5 bg-[var(--primary-700)] text-white font-medium rounded-md hover:bg-[var(--primary-800)] transition-colors"
-              >
-                Student Login
-              </button>
-            </div>
     <div className="min-h-screen flex flex-col">
       {/* Navbar */}
       <nav className="bg-white text-purple-900 p-4 flex justify-between items-center shadow-lg">
@@ -168,7 +125,6 @@ export default function Home() {
               <a href="#programs" className="block py-2 text-[var(--neutral-700)] font-medium">Programs</a>
               <a href="#accreditation" className="block py-2 text-[var(--neutral-700)] font-medium">Accreditation</a>
               <a href="#contact" className="block py-2 text-[var(--neutral-700)] font-medium">Contact</a>
-              <a href="#app" className="block py-2 text-[var(--neutral-700)] font-medium">Mobile App</a>
               <div className="pt-4 space-y-3 border-t border-[var(--neutral-200)]">
                 <button
                   onClick={() => router.push("/login")}
@@ -394,9 +350,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Student Portal App Section */}
-      <StudentPortalAppSection />
-
       {/* CTA Section */}
       <section className="bg-purple-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -465,16 +418,6 @@ export default function Home() {
                 <li>
                   <a href="/register" className="text-white/70 hover:text-[var(--accent-400)] transition-colors text-sm">
                     Enroll Now
-                  </a>
-                </li>
-                <li>
-                  <a 
-                    href="https://ksvlqxjnhvesydokmdfw.supabase.co/storage/v1/object/public/app-releases/vivace.apk" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="text-white/70 hover:text-[var(--accent-400)] transition-colors text-sm"
-                  >
-                    Student Portal App (Android)
                   </a>
                 </li>
               </ul>

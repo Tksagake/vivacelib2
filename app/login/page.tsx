@@ -4,7 +4,7 @@ import { useState } from "react";
 import supabase from "../lib/supabaseClient";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Mail, Lock, ArrowRight, Eye, EyeOff, Smartphone } from "lucide-react";
+import { Mail, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
 
 export default function Login() {
   const router = useRouter();
@@ -181,7 +181,7 @@ export default function Login() {
             </form>
 
             <div className="mt-8 pt-6 border-t border-[var(--neutral-200)]">
-              <p className="text-center text-[var(--neutral-600)] mb-4">
+              <p className="text-center text-[var(--neutral-600)]">
                 Don&apos;t have an account?{" "}
                 <a 
                   href="/register" 
@@ -190,25 +190,6 @@ export default function Login() {
                   Create account
                 </a>
               </p>
-              
-              <div className="mt-4 p-4 bg-[var(--secondary-50)] rounded-lg border border-[var(--secondary-200)]">
-                <div className="flex items-center gap-3">
-                  <Smartphone size={20} className="text-[var(--secondary-600)] shrink-0" />
-                  <div className="flex-1">
-                    <p className="text-sm text-[var(--neutral-700)] mb-1">
-                      <strong>Access on mobile:</strong> Download the Vivace Student Portal App
-                    </p>
-                    <a 
-                      href="https://ksvlqxjnhvesydokmdfw.supabase.co/storage/v1/object/public/app-releases/vivace.apk"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm font-semibold text-[var(--secondary-700)] hover:text-[var(--secondary-800)] hover:underline transition-colors"
-                    >
-                      Get Android App →
-                    </a>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
 
