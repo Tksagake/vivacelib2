@@ -458,7 +458,7 @@ export default function Home() {
                 </li>
                 <li>
                   <a 
-                    href="https://ksvlqxjnhvesydokmdfw.supabase.co/storage/v1/object/public/app-releases/vivace.apk" 
+                    href="https://ksvlqxjnhvesydokmdfw.supabase.co/storage/v1/object/public/app-releases/vivace2.apk" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="text-white/70 hover:text-[var(--accent-400)] transition-colors text-sm"
