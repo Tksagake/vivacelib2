@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Vivace Music Kenya Resource Center",
-  description: "Kenya's Premier Digital Music Library - Access comprehensive music education resources, Trinity College London preparation materials, and AI-powered learning assistance.",
+  description: "Powered by DiversiWorks Times Group",
 };
 
 export default function RootLayout({
@@ -15,19 +15,19 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/Logo.png" />
-        <meta name="theme-color" content="#1e3a5f" />
-        <meta name="description" content="Vivace Music School Kenya - Digital Library for Music Education" />
-        <meta name="author" content="Vivace Music School Kenya" />
-        <meta name="keywords" content="Vivace, Music, School, Kenya, Library, Trinity College London, Music Theory, Music Education" />
-        <meta property="og:title" content="VivaceKenya Library 2.0" />
-        <meta property="og:description" content="Kenya's Premier Digital Music Library" />
+        <meta name="theme-color" content="#6b46c1" />
+        <meta name="description" content="Vivace Music School Kenya Library" />
+        <meta name="author" content="Vivace Team" />
+        <meta name="keywords" content="Vivace, Music, School, Kenya, Library, VivaceKenya" />
+        <meta property="og:title" content="Vivace Music Kenya Resource Center" />
+        <meta property="og:description" content="Created with love by the Vivace Team" />
         <meta property="og:image" content="/Logo.png" />
         <meta property="og:url" content="https://library.vivacekenya.co.ke" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="VivaceKenya" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="VivaceKenya Library 2.0" />
-        <meta name="twitter:description" content="Kenya's Premier Digital Music Library" />
+        <meta name="twitter:title" content="Vivace Music Kenya Resource Center" />
+        <meta name="twitter:description" content="Created with love by the Vivace Team" />
         <meta name="twitter:image" content="/Logo.png" />
         <meta name="twitter:site" content="@VivaceKenya" />
         <meta name="twitter:creator" content="@VivaceKenya" />

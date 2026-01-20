@@ -114,15 +114,50 @@ export default function Home() {
                 Student Login
               </button>
             </div>
+    <div className="min-h-screen flex flex-col">
+      {/* Navbar */}
+      <nav className="bg-white text-purple-900 p-4 flex justify-between items-center shadow-lg">
+        <div className="flex items-center gap-2">
+          <img src="/Logo.png" alt="Vivace Logo" className="w-28 h-28" />
+          <h1 className="text-2xl font-bold">Vivace Music School Kenya</h1>
+        </div>
+        <div className="space-x-6 hidden md:flex">
+          <button
+            onClick={() => router.push("/login")}
+            className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 hover:text-purple-900 transition-colors"
+          >
+            Student Login
+          </button>
+        </div>
+        <div className="md:hidden flex items-center">
+          <button onClick={toggleMenu} className="text-purple-900 hover:text-yellow focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
+              {isMenuOpen ? (
+                <>
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </>
+              ) : (
+                <>
+                  <line x1="4" x2="20" y1="12" y2="12"></line>
+                  <line x1="4" x2="20" y1="6" y2="6"></line>
+                  <line x1="4" x2="20" y1="18" y2="18"></line>
+                </>
+              )}
+            </svg>
+          </button>
+        </div>
+      </nav>
 
-            <button 
-              onClick={toggleMenu} 
-              className="md:hidden p-2 text-[var(--neutral-700)] hover:bg-[var(--neutral-100)] rounded-md"
-              aria-label="Toggle menu"
-            >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden flex flex-col space-y-4 p-4 bg-white text-purple-900 shadow-lg">
+          <button
+            onClick={() => router.push("/login")}
+            className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 hover:text-purple-900 transition-colors"
+          >
+            Student Login
+          </button>
         </div>
 
         {/* Mobile Menu */}
@@ -148,51 +183,34 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <header className="relative bg-gradient-to-br from-[var(--primary-900)] via-[var(--primary-800)] to-[var(--primary-700)] overflow-hidden">
-        <div className="absolute inset-0 opacity-10 bg-gradient-to-br from-white/5 to-transparent"></div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-white/90 text-sm mb-6">
-                <Award size={16} />
-                <span>Trinity College London Authorized Center #74255</span>
-              </div>
-              
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-                Vivace Music Kenya Resource Center
-              </h1>
-              
-              <p className="text-lg md:text-xl text-white/80 mb-8 max-w-xl mx-auto lg:mx-0">
-                Access Kenya&apos;s premier digital music library. Comprehensive resources for Trinity College London preparation, 
-                theory mastery, and professional development.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <button
-                  onClick={() => router.push("/login")}
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-[var(--primary-800)] font-semibold rounded-lg hover:bg-[var(--accent-100)] transition-colors shadow-lg"
-                >
-                  Access for Vivace Students
-                  <ChevronRight size={20} />
-                </button>
-              </div>
-            </div>
-            
-            <div className="hidden lg:flex justify-center">
-              <div className="relative">
-                <div className="absolute -inset-4 bg-gradient-to-r from-[var(--accent-500)] to-[var(--secondary-500)] rounded-2xl blur-2xl opacity-30"></div>
-                <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-                  <Image 
-                    src="/Logo.png" 
-                    alt="Vivace Music School" 
-                    width={300} 
-                    height={300}
-                    className="object-contain"
-                  />
-                </div>
-              </div>
-            </div>
+      <header className="bg-purple-100 text-purple-900 py-20 relative">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGlicmFyeXxlbnwwfHwwfHx8MA%3D%3D"
+            alt="Library"
+            className="w-full h-full object-cover opacity-20"
+          />
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">Vivace Music Kenya Resource Center</h1>
+          <p className="text-xl mb-8 max-w-3xl mx-auto">
+            Your resource for music learning with PDF books, YouTube classes, and AI chatbot support.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={() => router.push("/login")}
+              className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors shadow-lg"
+            >
+              Student Login
+            </button>
+            <a
+              href="https://www.vivaceke.co.ke/services"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors shadow-lg"
+            >
+              View All Programs
+            </a>
           </div>
         </div>
       </header>
@@ -380,23 +398,16 @@ export default function Home() {
       <StudentPortalAppSection />
 
       {/* CTA Section */}
-      <section className="py-20 lg:py-28 bg-gradient-to-r from-[var(--primary-800)] to-[var(--primary-900)]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Access the Vivace Student Portal
-          </h2>
-          <p className="text-xl text-white/80 mb-10 max-w-2xl mx-auto">
-            Vivace Music Kenya Resource Center is exclusively available for Vivace students.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => router.push("/login")}
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-[var(--primary-800)] font-semibold rounded-lg hover:bg-[var(--accent-100)] transition-colors shadow-lg"
-            >
-              Student Login
-              <ChevronRight size={20} />
-            </button>
-          </div>
+      <section className="bg-purple-900 text-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl font-bold mb-4">Access for Vivace Students</h2>
+          <p className="text-xl mb-8">Vivace Music School Kenya Resource Center is available to enrolled students.</p>
+          <button
+            onClick={() => router.push("/login")}
+            className="inline-block bg-purple-600 text-white px-8 py-3 rounded-md font-semibold hover:bg-purple-700 transition shadow-lg"
+          >
+            Vivace Student Portal
+          </button>
         </div>
       </section>
 
