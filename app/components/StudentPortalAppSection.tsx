@@ -3,7 +3,7 @@
 import { Smartphone, Download, BookOpen, Bell, Zap, Shield } from 'lucide-react';
 
 export default function StudentPortalAppSection() {
-  const APK_DOWNLOAD_URL = 'https://ksvlqxjnhvesydokmdfw.supabase.co/storage/v1/object/public/app-releases/vivace.apk';
+  const APK_DOWNLOAD_URL = 'https://ksvlqxjnhvesydokmdfw.supabase.co/storage/v1/object/public/app-releases/vivace2.apk';
   
   const features = [
     {
