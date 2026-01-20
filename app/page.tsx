@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { BookOpen, Video, MessageSquare, Music2, Award, GraduationCap, Library, ChevronRight, Menu, X, Mail, Phone, MapPin } from 'lucide-react';
+import { BookOpen, Video, MessageSquare, Music2, Award, GraduationCap, Library, ChevronRight, Menu, X, Mail, Phone, MapPin, Download } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Home() {
@@ -116,27 +116,7 @@ export default function Home() {
             Student Login
           </button>
         </div>
-
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden bg-white border-t border-[var(--neutral-200)]">
-            <div className="px-4 py-6 space-y-4">
-              <a href="#features" className="block py-2 text-[var(--neutral-700)] font-medium">Features</a>
-              <a href="#programs" className="block py-2 text-[var(--neutral-700)] font-medium">Programs</a>
-              <a href="#accreditation" className="block py-2 text-[var(--neutral-700)] font-medium">Accreditation</a>
-              <a href="#contact" className="block py-2 text-[var(--neutral-700)] font-medium">Contact</a>
-              <div className="pt-4 space-y-3 border-t border-[var(--neutral-200)]">
-                <button
-                  onClick={() => router.push("/login")}
-                  className="w-full py-3 bg-[var(--primary-700)] text-white font-medium rounded-md hover:bg-[var(--primary-800)] transition-colors"
-                >
-                  Vivace Student Portal
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      </nav>
+      )}
 
       {/* Hero Section */}
       <header className="bg-purple-100 text-purple-900 py-20 relative">
@@ -166,6 +146,15 @@ export default function Home() {
               className="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors shadow-lg"
             >
               View All Programs
+            </a>
+            <a
+              href="https://ksvlqxjnhvesydokmdfw.supabase.co/storage/v1/object/public/app-releases/vivace2.apk"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-yellow-500 text-purple-900 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-400 transition-colors shadow-lg flex items-center justify-center gap-2"
+            >
+              <Download size={20} />
+              Download App
             </a>
           </div>
         </div>
@@ -418,6 +407,12 @@ export default function Home() {
                 <li>
                   <a href="/register" className="text-white/70 hover:text-[var(--accent-400)] transition-colors text-sm">
                     Enroll Now
+                  </a>
+                </li>
+                <li>
+                  <a href="https://ksvlqxjnhvesydokmdfw.supabase.co/storage/v1/object/public/app-releases/vivace2.apk" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-[var(--accent-400)] transition-colors text-sm flex items-center gap-2">
+                    <Download size={16} />
+                    Download Mobile App
                   </a>
                 </li>
               </ul>
