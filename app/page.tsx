@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BookOpen, Video, MessageSquare, Music2, Award, GraduationCap, Library, ChevronRight, Menu, X, Mail, Phone, MapPin } from 'lucide-react';
 import Image from 'next/image';
+import StudentPortalAppSection from './components/StudentPortalAppSection';
 
 export default function Home() {
   const router = useRouter();
@@ -95,6 +96,7 @@ export default function Home() {
               <a href="#features" className="text-[var(--neutral-700)] hover:text-[var(--primary-700)] transition-colors font-medium">Features</a>
               <a href="#programs" className="text-[var(--neutral-700)] hover:text-[var(--primary-700)] transition-colors font-medium">Programs</a>
               <a href="#accreditation" className="text-[var(--neutral-700)] hover:text-[var(--primary-700)] transition-colors font-medium">Accreditation</a>
+              <a href="#app" className="text-[var(--neutral-700)] hover:text-[var(--primary-700)] transition-colors font-medium">Mobile App</a>
               <a href="#contact" className="text-[var(--neutral-700)] hover:text-[var(--primary-700)] transition-colors font-medium">Contact</a>
             </div>
 
@@ -131,6 +133,7 @@ export default function Home() {
               <a href="#programs" className="block py-2 text-[var(--neutral-700)] font-medium">Programs</a>
               <a href="#accreditation" className="block py-2 text-[var(--neutral-700)] font-medium">Accreditation</a>
               <a href="#contact" className="block py-2 text-[var(--neutral-700)] font-medium">Contact</a>
+              <a href="#app" className="block py-2 text-[var(--neutral-700)] font-medium">Mobile App</a>
               <div className="pt-4 space-y-3 border-t border-[var(--neutral-200)]">
                 <button
                   onClick={() => router.push("/login")}
@@ -373,6 +376,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Student Portal App Section */}
+      <StudentPortalAppSection />
+
       {/* CTA Section */}
       <section className="py-20 lg:py-28 bg-gradient-to-r from-[var(--primary-800)] to-[var(--primary-900)]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -448,6 +454,16 @@ export default function Home() {
                 <li>
                   <a href="/register" className="text-white/70 hover:text-[var(--accent-400)] transition-colors text-sm">
                     Enroll Now
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="https://ksvlqxjnhvesydokmdfw.supabase.co/storage/v1/object/public/app-releases/vivace.apk" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-white/70 hover:text-[var(--accent-400)] transition-colors text-sm"
+                  >
+                    Student Portal App (Android)
                   </a>
                 </li>
               </ul>
