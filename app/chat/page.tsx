@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
-import { SendHorizonal } from 'lucide-react';
+import { Send, Paperclip, Bot, User, Loader2 } from 'lucide-react';
 import DOMPurify from 'dompurify';
 import { createClient } from '@supabase/supabase-js';
 
@@ -29,6 +29,7 @@ export default function ChatPage() {
   const [error, setError] = useState('');
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     const fetchConversations = async () => {
@@ -133,7 +134,7 @@ export default function ChatPage() {
       }
 
       const fileUrl = `${supabaseUrl}/storage/v1/object/public/attachments/${file.name}`;
-      const fileMessage: Message = { role: 'user', content: `<a href="${fileUrl}" target="_blank">${file.name}</a>` };
+      const fileMessage: Message = { role: 'user', content: `<a href="${fileUrl}" target="_blank" class="text-[var(--primary-600)] underline">${file.name}</a>` };
       const updatedMessages = [...messages, fileMessage];
       setMessages(updatedMessages);
 
@@ -148,8 +149,9 @@ export default function ChatPage() {
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
       handleSend();
     }
   };
@@ -162,76 +164,159 @@ export default function ChatPage() {
     return DOMPurify.sanitize(
       message
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/### (.*?)\n/g, '<h3>$1</h3>')
-        .replace(/## (.*?)\n/g, '<h2>$1</h2>')
-        .replace(/# (.*?)\n/g, '<h1>$1</h1>')
-        .replace(/- (.*?)(?=\n|$)/g, '<ul><li>$1</li></ul>')
-        .replace(/```(.*?)```/g, '<pre><code>$1</code></pre>')
-        .replace(/`(.*?)`/g, '<code>$1</code>')
+        .replace(/### (.*?)\n/g, '<h3 class="text-lg font-semibold mt-3 mb-2">$1</h3>')
+        .replace(/## (.*?)\n/g, '<h2 class="text-xl font-semibold mt-4 mb-2">$1</h2>')
+        .replace(/# (.*?)\n/g, '<h1 class="text-2xl font-bold mt-4 mb-3">$1</h1>')
+        .replace(/- (.*?)(?=\n|$)/g, '<li class="ml-4">$1</li>')
+        .replace(/```([\s\S]*?)```/g, '<pre class="bg-[var(--neutral-100)] p-3 rounded-lg my-2 overflow-x-auto"><code>$1</code></pre>')
+        .replace(/`(.*?)`/g, '<code class="bg-[var(--neutral-100)] px-1.5 py-0.5 rounded text-sm">$1</code>')
         .replace(/\n/g, '<br />')
     );
   };
 
   return (
-    <div className="flex h-screen bg-white">
+    <div className="flex h-screen bg-[var(--background)]">
+      {/* Sidebar */}
       <Sidebar conversations={conversations} onSelectConversation={handleSelectConversation} />
 
-      <div className="flex flex-col flex-1 relative">
+      {/* Main Content */}
+      <div className="flex flex-col flex-1">
         <Navbar />
 
-        <main className="flex-1 overflow-y-auto p-6 space-y-4">
-          {messages.map((msg, idx) => (
-            <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div
-                className={`rounded-2xl p-4 max-w-lg text-sm shadow ${
-                  msg.role === 'user' ? 'bg-purple-600 text-white' : 'bg-gray-100 text-gray-800'
-                }`}
-                dangerouslySetInnerHTML={{ __html: msg.content }}
-              />
-            </div>
-          ))}
-
-          {loading && (
-            <div className="flex justify-start">
-              <div className="rounded-2xl p-4 max-w-lg text-sm bg-gray-100 text-gray-800 animate-pulse">
-                Typing...
+        {/* Chat Messages */}
+        <main className="flex-1 overflow-y-auto">
+          <div className="max-w-4xl mx-auto px-4 py-6">
+            {messages.length === 0 ? (
+              <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center">
+                <div className="w-20 h-20 bg-[var(--primary-100)] rounded-2xl flex items-center justify-center mb-6">
+                  <Bot size={40} className="text-[var(--primary-600)]" />
+                </div>
+                <h2 className="text-2xl font-bold text-[var(--primary-900)] mb-2">
+                  Vivace AI Assistant
+                </h2>
+                <p className="text-[var(--neutral-600)] max-w-md mb-8">
+                  Ask me anything about music theory, Trinity College London preparation, or get help with your musical journey.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-lg w-full">
+                  {[
+                    'Explain circle of fifths',
+                    'Help with Grade 5 theory',
+                    'Chord progressions basics',
+                    'Sight-reading tips'
+                  ].map((suggestion, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setInput(suggestion)}
+                      className="px-4 py-3 text-sm text-left bg-white border border-[var(--neutral-200)] rounded-lg hover:border-[var(--primary-300)] hover:bg-[var(--primary-50)] transition-colors"
+                    >
+                      {suggestion}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            ) : (
+              <div className="space-y-6">
+                {messages.map((msg, idx) => (
+                  <div
+                    key={idx}
+                    className={`flex gap-4 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
+                  >
+                    <div className={`shrink-0 w-10 h-10 rounded-xl flex items-center justify-center ${
+                      msg.role === 'user' 
+                        ? 'bg-[var(--primary-600)]' 
+                        : 'bg-[var(--secondary-100)]'
+                    }`}>
+                      {msg.role === 'user' 
+                        ? <User size={20} className="text-white" />
+                        : <Bot size={20} className="text-[var(--secondary-700)]" />
+                      }
+                    </div>
+                    <div
+                      className={`flex-1 max-w-[80%] rounded-2xl px-5 py-4 ${
+                        msg.role === 'user'
+                          ? 'bg-[var(--primary-600)] text-white ml-auto'
+                          : 'bg-white border border-[var(--neutral-200)] text-[var(--neutral-800)]'
+                      }`}
+                    >
+                      <div 
+                        className="prose prose-sm max-w-none"
+                        dangerouslySetInnerHTML={{ __html: msg.content }}
+                      />
+                    </div>
+                  </div>
+                ))}
 
-          <div ref={chatEndRef} />
+                {loading && (
+                  <div className="flex gap-4">
+                    <div className="shrink-0 w-10 h-10 rounded-xl bg-[var(--secondary-100)] flex items-center justify-center">
+                      <Bot size={20} className="text-[var(--secondary-700)]" />
+                    </div>
+                    <div className="bg-white border border-[var(--neutral-200)] rounded-2xl px-5 py-4">
+                      <div className="flex items-center gap-2 text-[var(--neutral-500)]">
+                        <Loader2 size={18} className="animate-spin" />
+                        <span className="text-sm">Thinking...</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div ref={chatEndRef} />
+              </div>
+            )}
+          </div>
         </main>
 
-        <div className="absolute bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200">
-          <div className="flex items-center gap-2 text-black">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyPress}
-              className="flex-1 border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
-              placeholder="Type your message..."
-            />
-            <input
-              type="file"
-              onChange={handleFileUpload}
-              className="hidden"
-              id="file-upload"
-            />
-            <label
-              htmlFor="file-upload"
-              className="p-3 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-600 flex items-center justify-center cursor-pointer"
-            >
-              📎
-            </label>
-            <button
-              onClick={handleSend}
-              className="p-3 rounded-full bg-purple-600 hover:bg-purple-700 text-white flex items-center justify-center"
-            >
-              <SendHorizonal size={20} />
-            </button>
+        {/* Input Area */}
+        <div className="border-t border-[var(--neutral-200)] bg-white">
+          <div className="max-w-4xl mx-auto px-4 py-4">
+            {error && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-sm text-red-600">{error}</p>
+              </div>
+            )}
+            
+            <div className="flex items-end gap-3">
+              <div className="flex-1 relative">
+                <textarea
+                  ref={inputRef}
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyPress}
+                  rows={1}
+                  className="w-full px-4 py-3 pr-12 border border-[var(--neutral-300)] rounded-xl bg-white text-[var(--neutral-900)] placeholder-[var(--neutral-400)] focus:border-[var(--primary-500)] focus:ring-2 focus:ring-[var(--primary-500)]/20 focus:outline-none resize-none transition-all"
+                  placeholder="Ask a question about music..."
+                  style={{ minHeight: '48px', maxHeight: '120px' }}
+                />
+              </div>
+
+              <input
+                type="file"
+                onChange={handleFileUpload}
+                className="hidden"
+                id="file-upload"
+              />
+              <label
+                htmlFor="file-upload"
+                className="shrink-0 p-3 rounded-xl bg-[var(--neutral-100)] hover:bg-[var(--neutral-200)] text-[var(--neutral-600)] cursor-pointer transition-colors"
+                title="Attach file"
+              >
+                <Paperclip size={20} />
+              </label>
+
+              <button
+                onClick={handleSend}
+                disabled={!input.trim() || loading}
+                className="shrink-0 p-3 rounded-xl bg-[var(--primary-600)] hover:bg-[var(--primary-700)] text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                title="Send message"
+              >
+                <Send size={20} />
+              </button>
+            </div>
+            
+            <p className="mt-3 text-xs text-center text-[var(--neutral-400)]">
+              Vivace AI can make mistakes. Verify important information.
+            </p>
           </div>
-          {error && <div className="text-red-500 mt-2 text-sm">{error}</div>}
         </div>
       </div>
     </div>
