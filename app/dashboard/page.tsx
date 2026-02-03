@@ -2,12 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { supabase } from '../lib/supabase';
 import Navbar from '../components/Navbar';
 import { BookOpen, MessageSquare, Video, Music2, ArrowRight, TrendingUp, Clock, Smartphone, Download } from 'lucide-react';
-
-// Initialize Supabase client
-const supabase = createClientComponentClient();
 
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null);

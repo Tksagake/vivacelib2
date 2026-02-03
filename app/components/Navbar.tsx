@@ -1,11 +1,9 @@
 import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { supabase } from '../lib/supabase';
 import { BookOpen, MessageCircle, Video, Music2, LogOut, Menu, X } from 'lucide-react';
 import { useState } from 'react';
-
-const supabase = createClientComponentClient();
 
 const Navbar: React.FC = () => {
   const router = useRouter();

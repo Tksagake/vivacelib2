@@ -1,25 +1,24 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import { Send, Paperclip, Bot, User, Loader2 } from 'lucide-react';
 import DOMPurify from 'dompurify';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseClient } from '../lib/supabase';
 
-// Supabase setup
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
 }
 
-interface Conversation {
+interface Thread {
   id: string;
-  message: string;
+  title: string;
+  updated_at: string;
 }
 
 export default function ChatPage() {
@@ -27,49 +26,210 @@ export default function ChatPage() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [threads, setThreads] = useState<Thread[]>([]);
+  const [currentThreadId, setCurrentThreadId] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
+  // Get user ID on mount
   useEffect(() => {
-    const fetchConversations = async () => {
-      const { data, error } = await supabase
-        .from('conversations')
-        .select('id, message')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        console.error('Error fetching conversations:', error);
-        return;
+    const getUserId = async () => {
+      const supabase = getSupabaseClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setUserId(user.id);
+      } else {
+        // Redirect to login if not authenticated
+        window.location.href = '/login';
       }
-      if (data) setConversations(data);
     };
-
-    fetchConversations();
+    getUserId();
   }, []);
 
-  const handleSelectConversation = async (id: string) => {
-    const { data, error } = await supabase
-      .from('conversations')
-      .select('message')
-      .eq('id', id)
-      .single();
-
-    if (error) {
-      console.error('Error fetching conversation:', error);
-      return;
+  // Load threads when userId is available
+  useEffect(() => {
+    if (userId) {
+      fetchThreads();
     }
-    if (data) {
-      setMessages(JSON.parse(data.message));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId]);
+
+  const fetchThreads = useCallback(async () => {
+    if (!userId) return;
+
+    try {
+      const response = await fetch(`/api/chat-threads?userId=${userId}`);
+      const data = await response.json();
+      
+      if (!response.ok) {
+        console.error('Failed to fetch threads:', data);
+        
+        // Show detailed error message based on error type
+        let errorMsg = '';
+        
+        if (data.apiKeyIssue) {
+          // API Key error - format troubleshooting steps
+          errorMsg = `⚠️ INVALID API KEY!\n\n${data.hint || data.error}\n\n`;
+          errorMsg += `This means your API key doesn't match your Supabase project.\n\n`;
+          errorMsg += `🔍 DIAGNOSE THE ISSUE:\nVisit /api/test-supabase to see exactly what's wrong\n\n`;
+          
+          if (data.troubleshooting) {
+            if (data.troubleshooting.problem) {
+              errorMsg += `Problem: ${data.troubleshooting.problem}\n\n`;
+            }
+            if (data.troubleshooting.common_causes && Array.isArray(data.troubleshooting.common_causes)) {
+              errorMsg += `Common causes:\n`;
+              data.troubleshooting.common_causes.forEach((cause: string) => {
+                errorMsg += `• ${cause}\n`;
+              });
+              errorMsg += `\n`;
+            }
+            if (data.troubleshooting.how_to_fix && Array.isArray(data.troubleshooting.how_to_fix)) {
+              errorMsg += `How to fix:\n`;
+              data.troubleshooting.how_to_fix.forEach((step: string) => {
+                errorMsg += `${step}\n`;
+              });
+            }
+          }
+          errorMsg += `\nSee DONT_GIVE_UP.md for complete instructions!`;
+        } else if (data.migrationRequired) {
+          // Database migration error
+          errorMsg = `⚠️ DATABASE NOT SET UP!\n\n${data.hint}\n\nSteps:\n`;
+          if (data.troubleshooting) {
+            Object.entries(data.troubleshooting).forEach(([key, value]) => {
+              errorMsg += `\n${key.replace('step', 'Step ')}: ${value}`;
+            });
+          }
+        } else {
+          // Generic error
+          errorMsg = data.hint || data.details || data.error || 'Failed to load conversations. Please check your setup.';
+        }
+        
+        setError(errorMsg);
+        return;
+      }
+      
+      if (data.threads) {
+        setThreads(data.threads);
+      }
+    } catch (error) {
+      console.error('Error fetching threads:', error);
+      setError('Failed to connect to server. Please check your internet connection.');
+    }
+  }, [userId]);
+
+  const createNewThread = async () => {
+    if (!userId) return null;
+
+    try {
+      const response = await fetch('/api/chat-threads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, title: 'New Conversation' }),
+      });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        console.error('Failed to create thread:', data);
+        
+        // Show detailed error message based on error type
+        let errorMsg = '';
+        
+        if (data.apiKeyIssue) {
+          // API Key error - format troubleshooting steps
+          errorMsg = `⚠️ INVALID API KEY!\n\n${data.hint || data.error}\n\n`;
+          errorMsg += `This means your API key doesn't match your Supabase project.\n\n`;
+          errorMsg += `🔍 DIAGNOSE THE ISSUE:\nVisit /api/test-supabase to see exactly what's wrong\n\n`;
+          
+          if (data.troubleshooting) {
+            if (data.troubleshooting.problem) {
+              errorMsg += `Problem: ${data.troubleshooting.problem}\n\n`;
+            }
+            if (data.troubleshooting.common_causes && Array.isArray(data.troubleshooting.common_causes)) {
+              errorMsg += `Common causes:\n`;
+              data.troubleshooting.common_causes.forEach((cause: string) => {
+                errorMsg += `• ${cause}\n`;
+              });
+              errorMsg += `\n`;
+            }
+            if (data.troubleshooting.how_to_fix && Array.isArray(data.troubleshooting.how_to_fix)) {
+              errorMsg += `How to fix:\n`;
+              data.troubleshooting.how_to_fix.forEach((step: string) => {
+                errorMsg += `${step}\n`;
+              });
+            }
+          }
+          errorMsg += `\nSee DONT_GIVE_UP.md for complete instructions!`;
+        } else if (data.migrationRequired) {
+          // Database migration error
+          errorMsg = `⚠️ DATABASE NOT SET UP!\n\n${data.hint}\n\nSteps:\n`;
+          if (data.troubleshooting) {
+            Object.entries(data.troubleshooting).forEach(([key, value]) => {
+              errorMsg += `\n${key.replace('step', 'Step ')}: ${value}`;
+            });
+          }
+        } else {
+          // Generic error
+          errorMsg = data.hint || data.details || data.error || 'Failed to create conversation.';
+        }
+        
+        setError(errorMsg);
+        return null;
+      }
+      
+      if (data.thread) {
+        setThreads([data.thread, ...threads]);
+        return data.thread.id;
+      }
+    } catch (error) {
+      console.error('Error creating thread:', error);
+      setError('Failed to create conversation. Please try again.');
+    }
+    return null;
+  };
+
+  const handleSelectThread = async (threadId: string) => {
+    if (!userId) return;
+
+    try {
+      const response = await fetch(`/api/chat-messages?threadId=${threadId}&userId=${userId}`);
+      const data = await response.json();
+      
+      if (data.messages) {
+        const formattedMessages = data.messages
+          .filter((msg: any) => msg.role !== 'system')
+          .map((msg: any) => ({
+            role: msg.role,
+            content: msg.content,
+          }));
+        setMessages(formattedMessages);
+        setCurrentThreadId(threadId);
+      }
+    } catch (error) {
+      console.error('Error fetching messages:', error);
     }
   };
 
   const handleSend = async () => {
-    if (!input.trim()) return;
+    if (!input.trim() || !userId) return;
+    
     setError('');
+    
+    // Create new thread if needed
+    let threadId = currentThreadId;
+    if (!threadId) {
+      threadId = await createNewThread();
+      if (!threadId) {
+        setError('Failed to create conversation thread');
+        return;
+      }
+      setCurrentThreadId(threadId);
+    }
+
     const userMessage: Message = { role: 'user', content: input };
-    const updatedMessages = [...messages, userMessage];
-    setMessages(updatedMessages);
+    setMessages([...messages, userMessage]);
     setInput('');
     setLoading(true);
 
@@ -77,41 +237,30 @@ export default function ChatPage() {
       const response = await fetch('/api/deepseek-chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: updatedMessages }),
+        body: JSON.stringify({ 
+          threadId,
+          userId,
+          userMessage: input,
+        }),
       });
 
-      if (!response.ok || !response.body) throw new Error(`Error: ${response.statusText}`);
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
 
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder('utf-8');
-      let result = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        result += decoder.decode(value, { stream: true });
-
-        try {
-          const jsonResponse = JSON.parse(result);
-          if (jsonResponse.message) {
-            const botMessage: Message = { role: 'assistant', content: formatMessage(jsonResponse.message) };
-            const finalMessages = [...updatedMessages, botMessage];
-            setMessages(finalMessages);
-
-            const { data, error } = await supabase
-              .from('conversations')
-              .insert([{ user_id: 'user-uuid', message: JSON.stringify(finalMessages) }])
-              .select();
-
-            if (error) console.error('Error saving conversation:', error);
-            else setConversations((prev) => [data![0], ...prev]);
-          }
-        } catch (e) {
-          console.error('JSON parsing error:', e);
-        }
+      const data = await response.json();
+      if (data.message) {
+        const botMessage: Message = { 
+          role: 'assistant', 
+          content: formatMessage(data.message) 
+        };
+        setMessages((prev) => [...prev, botMessage]);
+        
+        // Refresh threads list to update timestamps
+        fetchThreads();
       }
     } catch (error) {
-      console.error('Chatbot error:', error);
+      console.error('Chat error:', error);
       setError('Failed to fetch response. Please try again.');
     } finally {
       setLoading(false);
@@ -120,32 +269,50 @@ export default function ChatPage() {
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
+    if (!file || !userId) return;
 
-    try {
-      const { data, error } = await supabase.storage
-        .from('attachments')
-        .upload(`public/${file.name}`, file);
-
-      if (error) {
-        console.error('Error uploading file:', error);
-        setError('Failed to upload file. Please try again.');
+    // Create new thread if needed
+    let threadId = currentThreadId;
+    if (!threadId) {
+      threadId = await createNewThread();
+      if (!threadId) {
+        setError('Failed to create conversation thread');
         return;
       }
+      setCurrentThreadId(threadId);
+    }
 
-      const fileUrl = `${supabaseUrl}/storage/v1/object/public/attachments/${file.name}`;
-      const fileMessage: Message = { role: 'user', content: `<a href="${fileUrl}" target="_blank" class="text-[var(--primary-600)] underline">${file.name}</a>` };
-      const updatedMessages = [...messages, fileMessage];
-      setMessages(updatedMessages);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('threadId', threadId);
+      formData.append('userId', userId);
 
-      const { error: saveError } = await supabase
-        .from('conversations')
-        .insert([{ user_id: 'user-uuid', message: JSON.stringify(updatedMessages) }]);
+      const response = await fetch('/api/chat-upload', {
+        method: 'POST',
+        body: formData,
+      });
 
-      if (saveError) console.error('Error saving conversation:', saveError);
-    } catch (err) {
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Upload failed');
+      }
+
+      const data = await response.json();
+      
+      // Add a message indicating file upload
+      const fileMessage: Message = { 
+        role: 'user', 
+        content: `Uploaded file: ${file.name}` 
+      };
+      setMessages((prev) => [...prev, fileMessage]);
+      
+      // Optionally show extraction status
+      setError('');
+      console.log('File uploaded successfully:', data);
+    } catch (err: any) {
       console.error('File upload error:', err);
-      setError('An unexpected error occurred.');
+      setError(err.message || 'Failed to upload file. Please try again.');
     }
   };
 
@@ -174,10 +341,19 @@ export default function ChatPage() {
     );
   };
 
+  // Convert threads to format expected by Sidebar
+  const conversations = threads.map(thread => ({
+    id: thread.id,
+    message: thread.title,
+  }));
+
   return (
     <div className="flex h-screen bg-[var(--background)]">
       {/* Sidebar */}
-      <Sidebar conversations={conversations} onSelectConversation={handleSelectConversation} />
+      <Sidebar 
+        conversations={conversations} 
+        onSelectConversation={handleSelectThread} 
+      />
 
       {/* Main Content */}
       <div className="flex flex-col flex-1">
@@ -292,13 +468,14 @@ export default function ChatPage() {
               <input
                 type="file"
                 onChange={handleFileUpload}
+                accept=".pdf,.png,.jpg,.jpeg"
                 className="hidden"
                 id="file-upload"
               />
               <label
                 htmlFor="file-upload"
                 className="shrink-0 p-3 rounded-xl bg-[var(--neutral-100)] hover:bg-[var(--neutral-200)] text-[var(--neutral-600)] cursor-pointer transition-colors"
-                title="Attach file"
+                title="Attach file (PDF, PNG, JPEG)"
               >
                 <Paperclip size={20} />
               </label>

@@ -1,14 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { supabase } from '../lib/supabase';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import Navbar from '../components/Navbar';
 import { Search, BookOpen, Filter, Grid3X3, List, X, Download, Eye, Loader2, ChevronDown } from 'lucide-react';
-
-// Initialize Supabase client
-const supabase = createClientComponentClient();
 
 // Book cover images
 const BOOK_COVERS = [
