@@ -124,19 +124,20 @@ async function extractTextFromFile(file: File, uploadId: string, storagePath: st
     if (file.type === 'application/pdf') {
       // Extract text from PDF
       try {
-        // Dynamic require to avoid TypeScript issues
-        const pdfParse = require('pdf-parse');
-        const pdfData = await pdfParse(buffer);
+        // Use dynamic import with type casting to work around ESM/CJS issues
+        const pdfParse: any = await import('pdf-parse');
+        const parseFn = pdfParse.default || pdfParse;
+        const pdfData = await parseFn(buffer);
         extractedText = pdfData.text.trim();
 
         // If no text found, try OCR
         if (!extractedText) {
-          console.log('No text layer found in PDF, attempting OCR...');
+          console.log(`No text layer found in PDF (uploadId: ${uploadId}), attempting OCR...`);
           // For now, mark as processed with empty text
           // Full OCR on PDF pages would require additional processing
         }
       } catch (pdfError) {
-        console.error('PDF parsing error:', pdfError);
+        console.error(`PDF parsing error for uploadId ${uploadId}, file: ${storagePath}:`, pdfError);
       }
     } else if (file.type.startsWith('image/')) {
       // Extract text from image using OCR
@@ -146,7 +147,7 @@ async function extractTextFromFile(file: File, uploadId: string, storagePath: st
         });
         extractedText = result.data.text.trim();
       } catch (ocrError) {
-        console.error('OCR error:', ocrError);
+        console.error(`OCR error for uploadId ${uploadId}, file: ${storagePath}:`, ocrError);
       }
     }
 
@@ -160,10 +161,10 @@ async function extractTextFromFile(file: File, uploadId: string, storagePath: st
       .eq('id', uploadId);
 
     if (updateError) {
-      console.error('Failed to update extraction status:', updateError);
+      console.error(`Failed to update extraction status for uploadId ${uploadId}:`, updateError);
     }
   } catch (error) {
-    console.error('Text extraction error:', error);
+    console.error(`Text extraction error for uploadId ${uploadId}, file: ${storagePath}:`, error);
     // Mark as failed
     await supabase
       .from('chat_uploads')

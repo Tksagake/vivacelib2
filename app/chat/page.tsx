@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import { Send, Paperclip, Bot, User, Loader2 } from 'lucide-react';
@@ -51,8 +51,8 @@ export default function ChatPage() {
       if (user) {
         setUserId(user.id);
       } else {
-        // For demo purposes, use a placeholder if no user is logged in
-        setUserId('demo-user-id');
+        // Redirect to login if not authenticated
+        window.location.href = '/login';
       }
     };
     getUserId();
@@ -63,9 +63,10 @@ export default function ChatPage() {
     if (userId) {
       fetchThreads();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
-  const fetchThreads = async () => {
+  const fetchThreads = useCallback(async () => {
     if (!userId) return;
 
     try {
@@ -78,7 +79,7 @@ export default function ChatPage() {
     } catch (error) {
       console.error('Error fetching threads:', error);
     }
-  };
+  }, [userId]);
 
   const createNewThread = async () => {
     if (!userId) return null;
