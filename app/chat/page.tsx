@@ -76,16 +76,45 @@ export default function ChatPage() {
       if (!response.ok) {
         console.error('Failed to fetch threads:', data);
         
-        // Show detailed error message with migration instructions if needed
-        let errorMsg = data.hint || data.details || data.error || 'Failed to load conversations. Please check your setup.';
+        // Show detailed error message based on error type
+        let errorMsg = '';
         
-        if (data.migrationRequired) {
+        if (data.apiKeyIssue) {
+          // API Key error - format troubleshooting steps
+          errorMsg = `⚠️ INVALID API KEY!\n\n${data.hint || data.error}\n\n`;
+          errorMsg += `This means your API key doesn't match your Supabase project.\n\n`;
+          errorMsg += `🔍 DIAGNOSE THE ISSUE:\nVisit /api/test-supabase to see exactly what's wrong\n\n`;
+          
+          if (data.troubleshooting) {
+            if (data.troubleshooting.problem) {
+              errorMsg += `Problem: ${data.troubleshooting.problem}\n\n`;
+            }
+            if (data.troubleshooting.common_causes && Array.isArray(data.troubleshooting.common_causes)) {
+              errorMsg += `Common causes:\n`;
+              data.troubleshooting.common_causes.forEach((cause: string) => {
+                errorMsg += `• ${cause}\n`;
+              });
+              errorMsg += `\n`;
+            }
+            if (data.troubleshooting.how_to_fix && Array.isArray(data.troubleshooting.how_to_fix)) {
+              errorMsg += `How to fix:\n`;
+              data.troubleshooting.how_to_fix.forEach((step: string) => {
+                errorMsg += `${step}\n`;
+              });
+            }
+          }
+          errorMsg += `\nSee DONT_GIVE_UP.md for complete instructions!`;
+        } else if (data.migrationRequired) {
+          // Database migration error
           errorMsg = `⚠️ DATABASE NOT SET UP!\n\n${data.hint}\n\nSteps:\n`;
           if (data.troubleshooting) {
             Object.entries(data.troubleshooting).forEach(([key, value]) => {
               errorMsg += `\n${key.replace('step', 'Step ')}: ${value}`;
             });
           }
+        } else {
+          // Generic error
+          errorMsg = data.hint || data.details || data.error || 'Failed to load conversations. Please check your setup.';
         }
         
         setError(errorMsg);
@@ -116,16 +145,45 @@ export default function ChatPage() {
       if (!response.ok) {
         console.error('Failed to create thread:', data);
         
-        // Show detailed error message with migration instructions if needed
-        let errorMsg = data.hint || data.details || data.error || 'Failed to create conversation.';
+        // Show detailed error message based on error type
+        let errorMsg = '';
         
-        if (data.migrationRequired) {
+        if (data.apiKeyIssue) {
+          // API Key error - format troubleshooting steps
+          errorMsg = `⚠️ INVALID API KEY!\n\n${data.hint || data.error}\n\n`;
+          errorMsg += `This means your API key doesn't match your Supabase project.\n\n`;
+          errorMsg += `🔍 DIAGNOSE THE ISSUE:\nVisit /api/test-supabase to see exactly what's wrong\n\n`;
+          
+          if (data.troubleshooting) {
+            if (data.troubleshooting.problem) {
+              errorMsg += `Problem: ${data.troubleshooting.problem}\n\n`;
+            }
+            if (data.troubleshooting.common_causes && Array.isArray(data.troubleshooting.common_causes)) {
+              errorMsg += `Common causes:\n`;
+              data.troubleshooting.common_causes.forEach((cause: string) => {
+                errorMsg += `• ${cause}\n`;
+              });
+              errorMsg += `\n`;
+            }
+            if (data.troubleshooting.how_to_fix && Array.isArray(data.troubleshooting.how_to_fix)) {
+              errorMsg += `How to fix:\n`;
+              data.troubleshooting.how_to_fix.forEach((step: string) => {
+                errorMsg += `${step}\n`;
+              });
+            }
+          }
+          errorMsg += `\nSee DONT_GIVE_UP.md for complete instructions!`;
+        } else if (data.migrationRequired) {
+          // Database migration error
           errorMsg = `⚠️ DATABASE NOT SET UP!\n\n${data.hint}\n\nSteps:\n`;
           if (data.troubleshooting) {
             Object.entries(data.troubleshooting).forEach(([key, value]) => {
               errorMsg += `\n${key.replace('step', 'Step ')}: ${value}`;
             });
           }
+        } else {
+          // Generic error
+          errorMsg = data.hint || data.details || data.error || 'Failed to create conversation.';
         }
         
         setError(errorMsg);
