@@ -1,6 +1,25 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
+// Helper function to extract project ID from JWT
+function extractProjectIdFromJWT(key: string): string | null {
+  try {
+    const parts = key.split('.');
+    if (parts.length === 3) {
+      const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString());
+      if (payload.iss) {
+        const issMatch = payload.iss.match(/https:\/\/([a-zA-Z0-9-]+)\.supabase\./);
+        if (issMatch) {
+          return issMatch[1];
+        }
+      }
+    }
+  } catch (e) {
+    // Failed to decode
+  }
+  return null;
+}
+
 export async function GET() {
   const results = {
     timestamp: new Date().toISOString(),
@@ -9,8 +28,19 @@ export async function GET() {
       NEXT_PUBLIC_SUPABASE_URL: '',
       NEXT_PUBLIC_SUPABASE_ANON_KEY: '',
       SUPABASE_SERVICE_ROLE_KEY: '',
-      project_id_from_url: '',
-      project_id_from_key: ''
+      project_id_from_url: ''
+    },
+    anon_key_test: {
+      status: 'pending',
+      project_id: '',
+      matches_url: false,
+      explanation: ''
+    },
+    service_key_test: {
+      status: 'pending',
+      project_id: '',
+      matches_url: false,
+      explanation: ''
     },
     step2_validation: {
       status: 'pending',
@@ -30,6 +60,8 @@ export async function GET() {
       error: null as string | null
     },
     diagnosis: '',
+    why_login_works: '',
+    why_chat_fails: '',
     next_steps: [] as string[]
   };
 
@@ -38,74 +70,91 @@ export async function GET() {
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
-  // Extract project IDs to help identify mismatches
+  // Extract project ID from URL
   let projectIdFromUrl = '';
-  let projectIdFromKey = '';
-  
   if (url) {
     const urlMatch = url.match(/https:\/\/([a-zA-Z0-9-]+)\.supabase\./);
     if (urlMatch) {
       projectIdFromUrl = urlMatch[1];
     }
   }
-  
-  if (anonKey || serviceKey) {
-    try {
-      const keyToCheck = serviceKey || anonKey;
-      // JWT tokens have 3 parts separated by dots
-      const parts = keyToCheck.split('.');
-      if (parts.length === 3) {
-        // Decode the payload (second part)
-        const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString());
-        // The iss (issuer) field contains the Supabase project URL
-        if (payload.iss) {
-          const issMatch = payload.iss.match(/https:\/\/([a-zA-Z0-9-]+)\.supabase\./);
-          if (issMatch) {
-            projectIdFromKey = issMatch[1];
-          }
-        }
-      }
-    } catch (e) {
-      // Failed to decode JWT - that's ok, we'll catch it in validation
-    }
-  }
 
   results.step1_env_vars.project_id_from_url = projectIdFromUrl || 'Could not extract';
-  results.step1_env_vars.project_id_from_key = projectIdFromKey || 'Could not extract';
   results.step1_env_vars.NEXT_PUBLIC_SUPABASE_URL = url ? `✓ Set (${url.substring(0, 30)}...)` : '✗ NOT SET';
   results.step1_env_vars.NEXT_PUBLIC_SUPABASE_ANON_KEY = anonKey ? `✓ Set (${anonKey.substring(0, 20)}...)` : '✗ NOT SET';
   results.step1_env_vars.SUPABASE_SERVICE_ROLE_KEY = serviceKey ? `✓ Set (${serviceKey.substring(0, 20)}...)` : '✗ NOT SET';
   
-  // Check if project IDs match
-  if (projectIdFromUrl && projectIdFromKey && projectIdFromUrl !== projectIdFromKey) {
-    results.step1_env_vars.status = 'failed';
-    results.diagnosis = `🚨 PROJECT MISMATCH DETECTED! 🚨`;
+  // Test ANON key separately
+  if (anonKey) {
+    const anonProjectId = extractProjectIdFromJWT(anonKey);
+    results.anon_key_test.project_id = anonProjectId || 'Could not extract (invalid JWT)';
+    results.anon_key_test.matches_url = !!(anonProjectId && projectIdFromUrl && anonProjectId === projectIdFromUrl);
+    results.anon_key_test.status = results.anon_key_test.matches_url ? 'passed' : 'failed';
+    results.anon_key_test.explanation = results.anon_key_test.matches_url 
+      ? '✅ Anon key is correct (that\'s why login works)'
+      : '❌ Anon key is from a different project';
+  }
+  
+  // Test SERVICE ROLE key separately
+  if (serviceKey) {
+    const serviceProjectId = extractProjectIdFromJWT(serviceKey);
+    results.service_key_test.project_id = serviceProjectId || 'Could not extract (invalid JWT)';
+    results.service_key_test.matches_url = !!(serviceProjectId && projectIdFromUrl && serviceProjectId === projectIdFromUrl);
+    results.service_key_test.status = results.service_key_test.matches_url ? 'passed' : 'failed';
+    results.service_key_test.explanation = results.service_key_test.matches_url 
+      ? '✅ Service role key is correct'
+      : '❌ Service role key is wrong (that\'s why chat fails)';
+  }
+  
+  // Provide diagnosis based on which keys work
+  if (results.anon_key_test.status === 'passed' && results.service_key_test.status === 'failed') {
+    results.step1_env_vars.status = 'partial';
+    results.diagnosis = '🎯 FOUND THE EXACT PROBLEM!';
+    results.why_login_works = 'Your ANON key is correct ✅ (that\'s why login works)';
+    results.why_chat_fails = 'Your SERVICE ROLE key is wrong ❌ (that\'s why chat fails)';
     results.next_steps = [
-      '🔴 CRITICAL: Your URL and API key are from DIFFERENT Supabase projects!',
+      '🎯 MYSTERY SOLVED!',
       '',
-      `Your URL is from project: ${projectIdFromUrl}`,
-      `Your API key is from project: ${projectIdFromKey}`,
+      'You asked: "Why does login work but chat fails?"',
       '',
-      'This is why you get "Invalid API key" errors!',
+      'ANSWER:',
+      '• Login uses NEXT_PUBLIC_SUPABASE_ANON_KEY ✅ (correct)',
+      '• Chat uses SUPABASE_SERVICE_ROLE_KEY ❌ (wrong project)',
       '',
-      'TO FIX - Choose ONE of these options:',
+      'Your ANON key is from project: ' + results.anon_key_test.project_id,
+      'Your SERVICE ROLE key is from project: ' + results.service_key_test.project_id,
+      'Your URL is for project: ' + projectIdFromUrl,
       '',
-      'OPTION 1: Use keys from the same project as your URL',
+      'TO FIX (60 seconds):',
+      '1. KEEP your current ANON key (it\'s correct!) ✅',
+      '2. Go to https://app.supabase.com',
+      `3. Open project: ${projectIdFromUrl}`,
+      '4. Go to Settings → API',
+      '5. Copy the "service_role" key (the secret one)',
+      '6. In Vercel → Environment Variables',
+      '7. REPLACE only SUPABASE_SERVICE_ROLE_KEY',
+      '8. Redeploy',
+      '',
+      'See WHY_LOGIN_WORKS.md for detailed explanation!'
+    ];
+    return NextResponse.json(results, { status: 207 }); // 207 = Multi-Status (partial success)
+  } else if (results.anon_key_test.status === 'failed' || results.service_key_test.status === 'failed') {
+    results.step1_env_vars.status = 'failed';
+    results.diagnosis = `🚨 KEY MISMATCH DETECTED! 🚨`;
+    results.next_steps = [
+      '🔴 One or more keys are from different Supabase projects!',
+      '',
+      `URL project: ${projectIdFromUrl}`,
+      `ANON key project: ${results.anon_key_test.project_id} (${results.anon_key_test.status})`,
+      `SERVICE key project: ${results.service_key_test.project_id} (${results.service_key_test.status})`,
+      '',
+      'TO FIX:',
       '1. Go to https://app.supabase.com',
-      `2. Select the project: ${projectIdFromUrl}`,
+      `2. Select project: ${projectIdFromUrl}`,
       '3. Go to Settings → API',
       '4. Copy BOTH keys from THIS project',
-      '5. Update environment variables in Vercel',
-      '6. Redeploy',
-      '',
-      'OPTION 2: Use URL from the same project as your keys',
-      '1. Go to https://app.supabase.com',
-      `2. Select the project: ${projectIdFromKey}`,
-      '3. Copy the project URL (Settings → API → Project URL)',
-      '4. Update NEXT_PUBLIC_SUPABASE_URL in Vercel',
-      '5. Redeploy',
-      '',
-      '⚠️ Make sure ALL values come from the SAME Supabase project!'
+      '5. Update ALL keys in Vercel environment variables',
+      '6. Redeploy'
     ];
     return NextResponse.json(results, { status: 500 });
   }
