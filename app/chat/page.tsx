@@ -5,21 +5,10 @@ import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import { Send, Paperclip, Bot, User, Loader2 } from 'lucide-react';
 import DOMPurify from 'dompurify';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { getSupabaseClient } from '../lib/supabase';
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
-
-// Lazy initialization of Supabase client
-let supabaseInstance: SupabaseClient | null = null;
-function getSupabase() {
-  if (!supabaseInstance) {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
-    supabaseInstance = createClient(supabaseUrl, supabaseAnonKey);
-  }
-  return supabaseInstance;
-}
 
 interface Message {
   role: 'user' | 'assistant';
@@ -46,7 +35,7 @@ export default function ChatPage() {
   // Get user ID on mount
   useEffect(() => {
     const getUserId = async () => {
-      const supabase = getSupabase();
+      const supabase = getSupabaseClient();
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         setUserId(user.id);

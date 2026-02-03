@@ -2,14 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '../lib/supabase';
 import Navbar from '../components/Navbar';
 import { BookOpen, MessageSquare, Video, Music2, ArrowRight, TrendingUp, Clock, Smartphone, Download } from 'lucide-react';
-
-// Initialize Supabase client with fallback values for build
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
-const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null);
