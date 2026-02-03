@@ -8,8 +8,12 @@ const supabase = supabaseUrl && supabaseServiceKey ? createClient(supabaseUrl, s
 // GET - Fetch all messages for a thread
 export async function GET(req: NextRequest) {
   if (!supabase) {
+    console.error('Supabase not configured for chat-messages GET');
     return NextResponse.json(
-      { error: 'Supabase configuration missing' },
+      { 
+        error: 'Supabase configuration missing',
+        details: 'Environment variables not set'
+      },
       { status: 500 }
     );
   }
@@ -35,8 +39,13 @@ export async function GET(req: NextRequest) {
       .single();
 
     if (threadError || !thread) {
+      console.error('Thread verification error:', threadError);
       return NextResponse.json(
-        { error: 'Thread not found or access denied' },
+        { 
+          error: 'Thread not found or access denied',
+          details: threadError?.message,
+          hint: 'Check if chat_threads table exists and RLS policies allow access'
+        },
         { status: 404 }
       );
     }
@@ -50,8 +59,13 @@ export async function GET(req: NextRequest) {
 
     if (messagesError) {
       console.error('Error fetching messages:', messagesError);
+      console.error('Error details:', JSON.stringify(messagesError, null, 2));
       return NextResponse.json(
-        { error: 'Failed to fetch messages' },
+        { 
+          error: 'Failed to fetch messages',
+          details: messagesError.message,
+          hint: 'Check if chat_messages table exists'
+        },
         { status: 500 }
       );
     }
@@ -60,7 +74,10 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     console.error('GET messages error:', error);
     return NextResponse.json(
-      { error: 'An unexpected error occurred' },
+      { 
+        error: 'An unexpected error occurred',
+        details: error instanceof Error ? error.message : String(error)
+      },
       { status: 500 }
     );
   }

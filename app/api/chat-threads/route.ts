@@ -8,8 +8,15 @@ const supabase = supabaseUrl && supabaseServiceKey ? createClient(supabaseUrl, s
 // GET - List all threads for a user
 export async function GET(req: NextRequest) {
   if (!supabase) {
+    console.error('Supabase not configured. Check environment variables:');
+    console.error('NEXT_PUBLIC_SUPABASE_URL:', process.env.NEXT_PUBLIC_SUPABASE_URL ? 'Set' : 'Missing');
+    console.error('NEXT_PUBLIC_SUPABASE_ANON_KEY:', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'Set' : 'Missing');
+    console.error('SUPABASE_SERVICE_ROLE_KEY:', process.env.SUPABASE_SERVICE_ROLE_KEY ? 'Set' : 'Missing');
     return NextResponse.json(
-      { error: 'Supabase configuration missing' },
+      { 
+        error: 'Supabase configuration missing',
+        details: 'Environment variables not set. Please check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.'
+      },
       { status: 500 }
     );
   }
@@ -33,8 +40,13 @@ export async function GET(req: NextRequest) {
 
     if (error) {
       console.error('Error fetching threads:', error);
+      console.error('Error details:', JSON.stringify(error, null, 2));
       return NextResponse.json(
-        { error: 'Failed to fetch threads' },
+        { 
+          error: 'Failed to fetch threads',
+          details: error.message,
+          hint: 'Check if chat_threads table exists in database'
+        },
         { status: 500 }
       );
     }
@@ -43,7 +55,10 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     console.error('GET threads error:', error);
     return NextResponse.json(
-      { error: 'An unexpected error occurred' },
+      { 
+        error: 'An unexpected error occurred',
+        details: error instanceof Error ? error.message : String(error)
+      },
       { status: 500 }
     );
   }
@@ -52,8 +67,12 @@ export async function GET(req: NextRequest) {
 // POST - Create a new thread
 export async function POST(req: NextRequest) {
   if (!supabase) {
+    console.error('Supabase not configured for POST. Check environment variables.');
     return NextResponse.json(
-      { error: 'Supabase configuration missing' },
+      { 
+        error: 'Supabase configuration missing',
+        details: 'Environment variables not set. Please check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.'
+      },
       { status: 500 }
     );
   }
@@ -81,8 +100,13 @@ export async function POST(req: NextRequest) {
 
     if (error) {
       console.error('Error creating thread:', error);
+      console.error('Error details:', JSON.stringify(error, null, 2));
       return NextResponse.json(
-        { error: 'Failed to create thread' },
+        { 
+          error: 'Failed to create thread',
+          details: error.message,
+          hint: 'Check if chat_threads table exists in database and RLS policies are configured'
+        },
         { status: 500 }
       );
     }
@@ -91,7 +115,10 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error('POST thread error:', error);
     return NextResponse.json(
-      { error: 'An unexpected error occurred' },
+      { 
+        error: 'An unexpected error occurred',
+        details: error instanceof Error ? error.message : String(error)
+      },
       { status: 500 }
     );
   }

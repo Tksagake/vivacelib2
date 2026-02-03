@@ -38,8 +38,12 @@ export const config = {
 
 export async function POST(req: NextRequest) {
   if (!supabase) {
+    console.error('Supabase not configured for deepseek-chat');
     return NextResponse.json(
-      { error: 'Supabase configuration missing' },
+      { 
+        error: 'Supabase configuration missing',
+        details: 'Environment variables not set. Please check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.'
+      },
       { status: 500 }
     );
   }
@@ -63,8 +67,13 @@ export async function POST(req: NextRequest) {
       .single();
 
     if (threadError || !thread) {
+      console.error('Thread verification error:', threadError);
       return NextResponse.json(
-        { error: 'Thread not found or access denied' },
+        { 
+          error: 'Thread not found or access denied',
+          details: threadError?.message,
+          hint: 'Check if chat_threads table exists and contains the thread'
+        },
         { status: 404 }
       );
     }

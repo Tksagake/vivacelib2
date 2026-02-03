@@ -73,11 +73,18 @@ export default function ChatPage() {
       const response = await fetch(`/api/chat-threads?userId=${userId}`);
       const data = await response.json();
       
+      if (!response.ok) {
+        console.error('Failed to fetch threads:', data);
+        setError(data.details || data.error || 'Failed to load conversations. Please check your setup.');
+        return;
+      }
+      
       if (data.threads) {
         setThreads(data.threads);
       }
     } catch (error) {
       console.error('Error fetching threads:', error);
+      setError('Failed to connect to server. Please check your internet connection.');
     }
   }, [userId]);
 
@@ -92,12 +99,20 @@ export default function ChatPage() {
       });
 
       const data = await response.json();
+      
+      if (!response.ok) {
+        console.error('Failed to create thread:', data);
+        setError(data.details || data.error || 'Failed to create conversation.');
+        return null;
+      }
+      
       if (data.thread) {
         setThreads([data.thread, ...threads]);
         return data.thread.id;
       }
     } catch (error) {
       console.error('Error creating thread:', error);
+      setError('Failed to create conversation. Please try again.');
     }
     return null;
   };
