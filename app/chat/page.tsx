@@ -75,7 +75,20 @@ export default function ChatPage() {
       
       if (!response.ok) {
         console.error('Failed to fetch threads:', data);
-        setError(data.details || data.error || 'Failed to load conversations. Please check your setup.');
+        
+        // Show detailed error message with migration instructions if needed
+        let errorMsg = data.hint || data.details || data.error || 'Failed to load conversations. Please check your setup.';
+        
+        if (data.migrationRequired) {
+          errorMsg = `⚠️ DATABASE NOT SET UP!\n\n${data.hint}\n\nSteps:\n`;
+          if (data.troubleshooting) {
+            Object.entries(data.troubleshooting).forEach(([key, value]) => {
+              errorMsg += `\n${key.replace('step', 'Step ')}: ${value}`;
+            });
+          }
+        }
+        
+        setError(errorMsg);
         return;
       }
       
@@ -102,7 +115,20 @@ export default function ChatPage() {
       
       if (!response.ok) {
         console.error('Failed to create thread:', data);
-        setError(data.details || data.error || 'Failed to create conversation.');
+        
+        // Show detailed error message with migration instructions if needed
+        let errorMsg = data.hint || data.details || data.error || 'Failed to create conversation.';
+        
+        if (data.migrationRequired) {
+          errorMsg = `⚠️ DATABASE NOT SET UP!\n\n${data.hint}\n\nSteps:\n`;
+          if (data.troubleshooting) {
+            Object.entries(data.troubleshooting).forEach(([key, value]) => {
+              errorMsg += `\n${key.replace('step', 'Step ')}: ${value}`;
+            });
+          }
+        }
+        
+        setError(errorMsg);
         return null;
       }
       

@@ -40,12 +40,28 @@ export async function GET(req: NextRequest) {
 
     if (error) {
       console.error('Error fetching threads:', error);
+      console.error('Error code:', error.code);
       console.error('Error details:', JSON.stringify(error, null, 2));
+      
+      // Check if it's a "table doesn't exist" error
+      const tableNotExist = error.message?.includes('relation') && error.message?.includes('does not exist');
+      const migrationNeeded = tableNotExist || error.code === '42P01';
+      
       return NextResponse.json(
         { 
           error: 'Failed to fetch threads',
           details: error.message,
-          hint: 'Check if chat_threads table exists in database'
+          hint: migrationNeeded 
+            ? '⚠️ DATABASE TABLES DO NOT EXIST! You need to run the migration in Supabase SQL Editor. See TROUBLESHOOTING.md for instructions.'
+            : 'Check if chat_threads table exists and RLS policies allow access',
+          migrationRequired: migrationNeeded,
+          troubleshooting: {
+            step1: 'Go to Supabase Dashboard → SQL Editor',
+            step2: 'Copy contents of: supabase/migrations/20260203_create_chat_tables.sql',
+            step3: 'Paste into SQL Editor and click Run',
+            step4: 'Verify tables appear in Table Editor',
+            step5: 'Refresh your app and try again'
+          }
         },
         { status: 500 }
       );
@@ -100,12 +116,28 @@ export async function POST(req: NextRequest) {
 
     if (error) {
       console.error('Error creating thread:', error);
+      console.error('Error code:', error.code);
       console.error('Error details:', JSON.stringify(error, null, 2));
+      
+      // Check if it's a "table doesn't exist" error
+      const tableNotExist = error.message?.includes('relation') && error.message?.includes('does not exist');
+      const migrationNeeded = tableNotExist || error.code === '42P01';
+      
       return NextResponse.json(
         { 
           error: 'Failed to create thread',
           details: error.message,
-          hint: 'Check if chat_threads table exists in database and RLS policies are configured'
+          hint: migrationNeeded 
+            ? '⚠️ DATABASE TABLES DO NOT EXIST! You need to run the migration in Supabase SQL Editor. See TROUBLESHOOTING.md for instructions.'
+            : 'Check if chat_threads table exists in database and RLS policies are configured',
+          migrationRequired: migrationNeeded,
+          troubleshooting: migrationNeeded ? {
+            step1: 'Go to Supabase Dashboard → SQL Editor',
+            step2: 'Copy contents of: supabase/migrations/20260203_create_chat_tables.sql',
+            step3: 'Paste into SQL Editor and click Run',
+            step4: 'Verify tables appear in Table Editor',
+            step5: 'Refresh your app and try again'
+          } : undefined
         },
         { status: 500 }
       );
