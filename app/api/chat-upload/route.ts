@@ -1,17 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import pdfParse from 'pdf-parse';
 import Tesseract from 'tesseract.js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabase = supabaseUrl && supabaseServiceKey ? createClient(supabaseUrl, supabaseServiceKey) : null;
 
 // Allowed file types
 const ALLOWED_MIME_TYPES = ['application/pdf', 'image/png', 'image/jpeg'];
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
 export async function POST(req: NextRequest) {
+  if (!supabase) {
+    return NextResponse.json(
+      { error: 'Supabase configuration missing' },
+      { status: 500 }
+    );
+  }
+
   try {
     const formData = await req.formData();
     const file = formData.get('file') as File;
@@ -106,6 +112,11 @@ export async function POST(req: NextRequest) {
 }
 
 async function extractTextFromFile(file: File, uploadId: string, storagePath: string) {
+  if (!supabase) {
+    console.error('Supabase not configured');
+    return;
+  }
+
   try {
     const buffer = Buffer.from(await file.arrayBuffer());
     let extractedText = '';
@@ -113,6 +124,8 @@ async function extractTextFromFile(file: File, uploadId: string, storagePath: st
     if (file.type === 'application/pdf') {
       // Extract text from PDF
       try {
+        // Dynamic require to avoid TypeScript issues
+        const pdfParse = require('pdf-parse');
         const pdfData = await pdfParse(buffer);
         extractedText = pdfData.text.trim();
 

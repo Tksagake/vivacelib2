@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabase = supabaseUrl && supabaseServiceKey ? createClient(supabaseUrl, supabaseServiceKey) : null;
 
 // System prompt for academic music education tutor
 const SYSTEM_PROMPT = `You are a professional music education tutor for a music school. Your role is to assist students strictly with music-related academic topics.
@@ -37,6 +37,13 @@ export const config = {
 };
 
 export async function POST(req: NextRequest) {
+  if (!supabase) {
+    return NextResponse.json(
+      { error: 'Supabase configuration missing' },
+      { status: 500 }
+    );
+  }
+
   try {
     const { threadId, userMessage, userId } = await req.json();
 

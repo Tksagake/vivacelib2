@@ -1,11 +1,14 @@
 import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@supabase/supabase-js';
 import { BookOpen, MessageCircle, Video, Music2, LogOut, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 
-const supabase = createClientComponentClient();
+// Initialize Supabase client with fallback values for build
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 const Navbar: React.FC = () => {
   const router = useRouter();
