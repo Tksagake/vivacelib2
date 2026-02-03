@@ -8,7 +8,9 @@ export async function GET() {
       status: 'checking',
       NEXT_PUBLIC_SUPABASE_URL: '',
       NEXT_PUBLIC_SUPABASE_ANON_KEY: '',
-      SUPABASE_SERVICE_ROLE_KEY: ''
+      SUPABASE_SERVICE_ROLE_KEY: '',
+      project_id_from_url: '',
+      project_id_from_key: ''
     },
     step2_validation: {
       status: 'pending',
@@ -36,9 +38,77 @@ export async function GET() {
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
+  // Extract project IDs to help identify mismatches
+  let projectIdFromUrl = '';
+  let projectIdFromKey = '';
+  
+  if (url) {
+    const urlMatch = url.match(/https:\/\/([a-zA-Z0-9-]+)\.supabase\./);
+    if (urlMatch) {
+      projectIdFromUrl = urlMatch[1];
+    }
+  }
+  
+  if (anonKey || serviceKey) {
+    try {
+      const keyToCheck = serviceKey || anonKey;
+      // JWT tokens have 3 parts separated by dots
+      const parts = keyToCheck.split('.');
+      if (parts.length === 3) {
+        // Decode the payload (second part)
+        const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString());
+        // The iss (issuer) field contains the Supabase project URL
+        if (payload.iss) {
+          const issMatch = payload.iss.match(/https:\/\/([a-zA-Z0-9-]+)\.supabase\./);
+          if (issMatch) {
+            projectIdFromKey = issMatch[1];
+          }
+        }
+      }
+    } catch (e) {
+      // Failed to decode JWT - that's ok, we'll catch it in validation
+    }
+  }
+
+  results.step1_env_vars.project_id_from_url = projectIdFromUrl || 'Could not extract';
+  results.step1_env_vars.project_id_from_key = projectIdFromKey || 'Could not extract';
   results.step1_env_vars.NEXT_PUBLIC_SUPABASE_URL = url ? `✓ Set (${url.substring(0, 30)}...)` : '✗ NOT SET';
   results.step1_env_vars.NEXT_PUBLIC_SUPABASE_ANON_KEY = anonKey ? `✓ Set (${anonKey.substring(0, 20)}...)` : '✗ NOT SET';
   results.step1_env_vars.SUPABASE_SERVICE_ROLE_KEY = serviceKey ? `✓ Set (${serviceKey.substring(0, 20)}...)` : '✗ NOT SET';
+  
+  // Check if project IDs match
+  if (projectIdFromUrl && projectIdFromKey && projectIdFromUrl !== projectIdFromKey) {
+    results.step1_env_vars.status = 'failed';
+    results.diagnosis = `🚨 PROJECT MISMATCH DETECTED! 🚨`;
+    results.next_steps = [
+      '🔴 CRITICAL: Your URL and API key are from DIFFERENT Supabase projects!',
+      '',
+      `Your URL is from project: ${projectIdFromUrl}`,
+      `Your API key is from project: ${projectIdFromKey}`,
+      '',
+      'This is why you get "Invalid API key" errors!',
+      '',
+      'TO FIX - Choose ONE of these options:',
+      '',
+      'OPTION 1: Use keys from the same project as your URL',
+      '1. Go to https://app.supabase.com',
+      `2. Select the project: ${projectIdFromUrl}`,
+      '3. Go to Settings → API',
+      '4. Copy BOTH keys from THIS project',
+      '5. Update environment variables in Vercel',
+      '6. Redeploy',
+      '',
+      'OPTION 2: Use URL from the same project as your keys',
+      '1. Go to https://app.supabase.com',
+      `2. Select the project: ${projectIdFromKey}`,
+      '3. Copy the project URL (Settings → API → Project URL)',
+      '4. Update NEXT_PUBLIC_SUPABASE_URL in Vercel',
+      '5. Redeploy',
+      '',
+      '⚠️ Make sure ALL values come from the SAME Supabase project!'
+    ];
+    return NextResponse.json(results, { status: 500 });
+  }
 
   if (!url || (!anonKey && !serviceKey)) {
     results.step1_env_vars.status = 'failed';
