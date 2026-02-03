@@ -268,6 +268,9 @@ Consider adding:
 3. **File Size**: 10MB limit may be restrictive for large PDFs.
 4. **Async Extraction**: File upload returns immediately; text extraction happens in background.
 5. **Error Recovery**: Failed extractions are marked but not automatically retried.
+6. **Next.js Dependency**: One moderate security vulnerability in Next.js 15.5.11
+   - See SECURITY.md for details and mitigation strategy
+   - Upgrade to Next.js 16.1.6+ recommended before production deployment
 
 ## Future Enhancement Opportunities
 
@@ -287,7 +290,11 @@ Consider adding:
 2. **RLS Enabled**: Database-level security prevents cross-user access
 3. **File Validation**: Strict file type and size checking
 4. **No Secrets in Code**: All sensitive data via environment variables
-5. **CodeQL Clean**: Zero security vulnerabilities detected
+5. **CodeQL Clean**: Zero security vulnerabilities detected in application code
+6. **Dependencies**: One moderate severity vulnerability in Next.js 15.5.11 (see SECURITY.md)
+   - Issue: Unbounded memory consumption via PPR Resume Endpoint
+   - Mitigation: Upgrade to Next.js 16.1.6+ recommended for production
+   - Current Risk: LOW-MODERATE (requires specific PPR endpoint usage)
 
 ## Success Criteria Met
 
@@ -304,6 +311,13 @@ Consider adding:
 
 ## Conclusion
 
-The contextual AI tutor system has been successfully implemented with all required features. The system is production-ready after database migration and environment variable setup. All security checks passed, and the build is successful.
+The contextual AI tutor system has been successfully implemented with all required features. The system is production-ready after database migration and environment variable setup. 
 
-**Status**: ✅ Implementation Complete and Ready for Deployment
+**Security Status:**
+- ✅ Application code: Zero vulnerabilities (CodeQL clean)
+- ⚠️ Dependencies: One moderate Next.js vulnerability (non-critical)
+- 📋 Recommendation: Upgrade to Next.js 16.1.6+ before production deployment
+
+See **SECURITY.md** for detailed security advisory and upgrade instructions.
+
+**Status**: ✅ Implementation Complete and Ready for Deployment (with recommended Next.js upgrade)
