@@ -51,6 +51,9 @@ const PDFViewer = ({ url }: { url: string }) => {
   );
 };
 
+// Supabase Storage limits .list() to 100 items per request
+const PAGE_SIZE = 100;
+
 // Categories for filtering
 const CATEGORIES = [
   'All Resources',
@@ -72,6 +75,9 @@ export default function Library() {
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [selectedCategory, setSelectedCategory] = useState('All Resources');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [offset, setOffset] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const router = useRouter();
 
   // Filter books based on search query and category
@@ -86,6 +92,28 @@ export default function Library() {
     return matchesSearch && matchesCategory;
   });
 
+  // Convert Supabase Storage entries into the shape used by the UI
+  const mapFilesToBooks = (files: { name: string }[]): Book[] =>
+    files.map((file) => {
+      const { data } = supabase.storage.from('pdf-resources').getPublicUrl(file.name);
+
+      // Determine category based on filename
+      let category = 'General';
+      const nameLower = file.name.toLowerCase();
+      if (nameLower.includes('trinity')) category = 'Trinity';
+      else if (nameLower.includes('theory')) category = 'Theory';
+      else if (nameLower.includes('workbook')) category = 'Workbook';
+      else if (nameLower.includes('scale')) category = 'Scales';
+      else if (nameLower.includes('practice')) category = 'Practice';
+
+      return {
+        name: file.name,
+        url: data.publicUrl,
+        thumbnail: getRandomCover(),
+        category,
+      };
+    });
+
   useEffect(() => {
     fetchBooks();
   }, []);
@@ -93,6 +121,8 @@ export default function Library() {
   async function fetchBooks() {
     try {
       const { data: files, error: listError } = await supabase.storage.from('pdf-resources').list('', {
+        limit: PAGE_SIZE,
+        offset: 0,
         sortBy: { column: 'name', order: 'asc' },
       });
 
@@ -100,39 +130,54 @@ export default function Library() {
         throw listError;
       }
 
-      if (!files || files.length === 0) {
-        return;
-      }
-
-      const bookList = files.map((file: { name: string }) => {
-        const { data } = supabase.storage.from('pdf-resources').getPublicUrl(file.name);
-
-        // Determine category based on filename
-        let category = 'General';
-        const nameLower = file.name.toLowerCase();
-        if (nameLower.includes('trinity')) category = 'Trinity';
-        else if (nameLower.includes('theory')) category = 'Theory';
-        else if (nameLower.includes('workbook')) category = 'Workbook';
-        else if (nameLower.includes('scale')) category = 'Scales';
-        else if (nameLower.includes('practice')) category = 'Practice';
-
-        return {
-          name: file.name,
-          url: data.publicUrl,
-          thumbnail: getRandomCover(),
-          category,
-        };
-      });
+      const bookList = mapFilesToBooks(files ?? []);
 
       setBooks(bookList);
+      setOffset(PAGE_SIZE);
+      setHasMore((files?.length ?? 0) === PAGE_SIZE);
 
-      const shuffled = [...bookList].sort(() => 0.5 - Math.random());
-      setRecommendedBooks(shuffled.slice(0, Math.min(4, shuffled.length)));
+      if (bookList.length > 0) {
+        const shuffled = [...bookList].sort(() => 0.5 - Math.random());
+        setRecommendedBooks(shuffled.slice(0, Math.min(4, shuffled.length)));
+      }
     } catch (error) {
       console.error('Error fetching books:', error);
       setError('Failed to load books');
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function loadMoreBooks() {
+    if (loadingMore || !hasMore) return;
+
+    setLoadingMore(true);
+
+    try {
+      const { data: files, error: listError } = await supabase.storage.from('pdf-resources').list('', {
+        limit: PAGE_SIZE,
+        offset,
+        sortBy: { column: 'name', order: 'asc' },
+      });
+
+      if (listError) {
+        throw listError;
+      }
+
+      const nextBooks = mapFilesToBooks(files ?? []);
+
+      // Append the new page, skipping any duplicates from overlapping requests
+      setBooks((prev) => {
+        const existingNames = new Set(prev.map((book) => book.name));
+        return [...prev, ...nextBooks.filter((book) => !existingNames.has(book.name))];
+      });
+
+      setOffset((prev) => prev + PAGE_SIZE);
+      setHasMore((files?.length ?? 0) === PAGE_SIZE);
+    } catch (error) {
+      console.error('Error loading more books:', error);
+    } finally {
+      setLoadingMore(false);
     }
   }
 
@@ -336,7 +381,10 @@ export default function Library() {
             <div className="flex items-center gap-6">
               <div className="text-sm">
                 <span className="text-[var(--neutral-500)]">Total Resources: </span>
-                <span className="font-semibold text-[var(--primary-900)]">{books.length}</span>
+                <span className="font-semibold text-[var(--primary-900)]">
+                  {books.length}
+                  {hasMore ? '+' : ''}
+                </span>
               </div>
               {(isSearching || selectedCategory !== 'All Resources') && (
                 <div className="text-sm">
@@ -480,6 +528,29 @@ export default function Library() {
                   {filteredBooks.map((book, index) => (
                     <BookListItem key={index} book={book} />
                   ))}
+                </div>
+              )}
+
+              {/* Pagination: Supabase returns at most 100 items per .list() request */}
+              {hasMore && (
+                <div className="flex justify-center mt-10">
+                  <button
+                    onClick={loadMoreBooks}
+                    disabled={loadingMore}
+                    className="flex items-center gap-2 px-8 py-3 bg-[var(--primary-600)] text-white font-semibold rounded-xl hover:bg-[var(--primary-700)] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {loadingMore ? (
+                      <>
+                        <Loader2 size={18} className="animate-spin" />
+                        <span>Loading...</span>
+                      </>
+                    ) : (
+                      <>
+                        <ChevronDown size={18} />
+                        <span>Load More</span>
+                      </>
+                    )}
+                  </button>
                 </div>
               )}
             </section>
